@@ -12,6 +12,6 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "PickMeMediaLibaryAndroid"
+rootProject.name = "PickMeSample"
 include ':app'
 include ':PickMeRedEyesNCode'
