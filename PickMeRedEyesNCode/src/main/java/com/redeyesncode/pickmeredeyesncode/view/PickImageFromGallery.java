@@ -180,6 +180,7 @@ public class PickImageFromGallery extends AppCompatActivity {
                 // values and the contentUri in a local object
                 // that represents the media file.
 
+
                 if(mediaTypeFinal==1){
                     imageList.add(new Image(contentUri, originalPath,name, size,0));
                 }

@@ -1,6 +1,7 @@
 package com.redeyesncode.pickmeredeyesncode.adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.redeyesncode.pickmeredeyesncode.R;
 import com.redeyesncode.pickmeredeyesncode.databinding.MediaListBinding;
 import com.redeyesncode.pickmeredeyesncode.model.Video;
 
@@ -18,10 +20,13 @@ public class GalleryVideoAdapter extends RecyclerView.Adapter<GalleryVideoAdapte
 
     private Context context;
     private List<Video> filesPaths;
+    private onClicked onClicked;
 
-    public GalleryVideoAdapter(Context context, List<Video> filesPaths) {
+    public GalleryVideoAdapter(Context context, List<Video> filesPaths,onClicked onClicked) {
         this.context = context;
         this.filesPaths = filesPaths;
+        this.onClicked = onClicked;
+
     }
 
     @NonNull
@@ -35,7 +40,25 @@ public class GalleryVideoAdapter extends RecyclerView.Adapter<GalleryVideoAdapte
     @Override
     public void onBindViewHolder(@NonNull MyViewholder holder, int position) {
         Video video = filesPaths.get(position);
-        Glide.with(context).load(video.getUri()).into(holder.binding.ImageTumbnail);
+
+        if(video.getName().contains("REDEYESNCODE")){
+            Glide.with(context).load(R.drawable.video).into(holder.binding.ImageTumbnail);
+        }else {
+            Glide.with(context).load(video.getUri()).into(holder.binding.ImageTumbnail);
+        }
+
+        holder.binding.ImageTumbnail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(video.getName().contains("REDEYESNCODE")){
+                    onClicked.onVideoClick(position,"REDEYESNCODE",video.getUri());
+                }else {
+                    onClicked.onVideoClick(position,video.getName(),video.getUri());
+                }
+            }
+        });
+
+
 
     }
 
@@ -53,6 +76,9 @@ public class GalleryVideoAdapter extends RecyclerView.Adapter<GalleryVideoAdapte
             binding = MediaListBinding.bind(itemView);
 
         }
+    }
+    public interface onClicked{
+        void onVideoClick(int position, String name, Uri uri);
     }
 
 }

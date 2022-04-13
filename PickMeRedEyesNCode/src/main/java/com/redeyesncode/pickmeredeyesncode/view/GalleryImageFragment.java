@@ -2,6 +2,7 @@ package com.redeyesncode.pickmeredeyesncode.view;
 
 import android.content.ContentUris;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
@@ -33,7 +34,7 @@ import java.util.concurrent.TimeUnit;
  * Use the {@link GalleryImageFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class GalleryImageFragment extends Fragment {
+public class GalleryImageFragment extends Fragment implements GalleryImageAdapter.onClicked {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -42,6 +43,21 @@ public class GalleryImageFragment extends Fragment {
     private Context context;
     private FragmentGalleryImageBinding binding;
 
+    @Override
+    public void onImageClick(int position, String name, Uri uri) {
+        if(name.contains("REDEYESNCODE")){
+            //OPEN THE CAMERA FOR THE USER TO CLICK AN IMAGE.
+
+
+        }else {
+
+            Intent previewIntent = new Intent(context,PreviewActivity.class);
+            previewIntent.putExtra("IMAGE_PATH",name);
+            startActivity(previewIntent);
+
+        }
+
+    }
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -143,7 +159,7 @@ public class GalleryImageFragment extends Fragment {
             //ADDED THIS TO CHECK THE TYPE OF THE MEDIA AND ADD ONLY THE IMAGES TYPE IN THE MEDIA.
 
             int mediaType = cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.MEDIA_TYPE);
-
+            imageList.add(new Image(uri,"REDEYESNCODE","",0,R.drawable.ic_add_image));
             while (cursor.moveToNext()) {
                 // Get values of columns for a given video.
                 long id = cursor.getLong(idColumn);
@@ -163,6 +179,7 @@ public class GalleryImageFragment extends Fragment {
                 // that represents the media file.
                 /*imageList.add(new Image(contentUri,"","",0,R.drawable.ic_add_image));*/
 
+
                 if(mediaTypeFinal==1){
                     imageList.add(new Image(contentUri, originalPath,name, size,0));
                 }
@@ -176,7 +193,7 @@ public class GalleryImageFragment extends Fragment {
 
 
 
-        binding.recvImages.setAdapter(new GalleryImageAdapter(context,imageList));
+        binding.recvImages.setAdapter(new GalleryImageAdapter(context,imageList,this));
         binding.recvImages.setLayoutManager(new GridLayoutManager(context,2));
         return imageList;
 
@@ -237,8 +254,8 @@ public class GalleryImageFragment extends Fragment {
 
 
         Log.i("PICK_ME",videoList.size()+" VIDEO LIST SIZE");
-        binding.recvImages.setAdapter(new GalleryVideoAdapter(context,videoList));
-        binding.recvImages.setLayoutManager(new GridLayoutManager(context,2));
+        /*binding.recvImages.setAdapter(new GalleryVideoAdapter(context,videoList,this));
+        binding.recvImages.setLayoutManager(new GridLayoutManager(context,2));*/
         return videoList;
 
     }

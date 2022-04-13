@@ -2,6 +2,7 @@ package com.redeyesncode.pickmeredeyesncode.view;
 
 import android.content.ContentUris;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
@@ -33,7 +34,7 @@ import java.util.concurrent.TimeUnit;
  * Use the {@link GalleryVideoFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class GalleryVideoFragment extends Fragment {
+public class GalleryVideoFragment extends Fragment implements GalleryVideoAdapter.onClicked {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -42,6 +43,22 @@ public class GalleryVideoFragment extends Fragment {
     private Context context;
     private FragmentGalleryVideoBinding binding;
 
+    @Override
+    public void onVideoClick(int position, String name, Uri uri) {
+        if (name.contains("REDEYESNCODE")){
+            //OPEN THE INTENT FOR THE CAMERA FOR THE USER TO TAKE A VIDEO AND SAVE IT.
+
+
+        }else {
+            Intent previewIntent = new Intent(context,PreviewActivity.class);
+            previewIntent.putExtra("VIDEO_PATH",uri);
+            startActivity(previewIntent);
+
+        }
+
+
+
+    }
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -173,8 +190,8 @@ public class GalleryVideoFragment extends Fragment {
         Log.i("PICK_ME",imageList.size()+" IMAGE LIST SIZE");
 
 
-        binding.recvImages.setAdapter(new GalleryImageAdapter(context,imageList));
-        binding.recvImages.setLayoutManager(new GridLayoutManager(context,2));
+       /* binding.recvImages.setAdapter(new GalleryImageAdapter(context,imageList));
+        binding.recvImages.setLayoutManager(new GridLayoutManager(context,2));*/
         return imageList;
 
 
@@ -200,7 +217,7 @@ public class GalleryVideoFragment extends Fragment {
         String[] selectionArgs = new String[] {
                 String.valueOf(TimeUnit.MILLISECONDS.convert(5, TimeUnit.MINUTES))};
         String sortOrder = MediaStore.Video.Media.DISPLAY_NAME + " ASC";
-
+        videoList.add(new Video(collection,"REDEYESNCODE",1,1));
         try (Cursor cursor = context.getContentResolver().query(
                 collection,
                 projection,
@@ -215,6 +232,7 @@ public class GalleryVideoFragment extends Fragment {
             int durationColumn =
                     cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DURATION);
             int sizeColumn = cursor.getColumnIndexOrThrow(MediaStore.Video.Media.SIZE);
+
 
             while (cursor.moveToNext()) {
                 // Get values of columns for a given video.
@@ -234,7 +252,7 @@ public class GalleryVideoFragment extends Fragment {
 
 
         Log.i("PICK_ME",videoList.size()+" VIDEO LIST SIZE");
-        binding.recvImages.setAdapter(new GalleryVideoAdapter(context,videoList));
+        binding.recvImages.setAdapter(new GalleryVideoAdapter(context,videoList,this));
         binding.recvImages.setLayoutManager(new GridLayoutManager(context,2));
         return videoList;
 
