@@ -30,6 +30,7 @@ import java.util.concurrent.TimeUnit;
 
 public class PickImageFromGallery extends AppCompatActivity {
     private ActivityPickImageFromGalleryBinding binding;
+    private Activity activity;
     public PickImageFromGallery() {
     }
 
@@ -42,10 +43,10 @@ public class PickImageFromGallery extends AppCompatActivity {
         return openGallery;
 
     }
-    public void goToPickActivity(Context context){
-        Intent pickImageIntent = new Intent(context,PickImageFromGallery.class);
+    public void goToPickActivity(Activity activity){
+        Intent pickImageIntent = new Intent(activity,PickImageFromGallery.class);
         //You need to Add the Context parameter in Order to use the Activity Methods Outside onCreate of any activity context.Methods-Name.
-        context.startActivity(pickImageIntent);
+        activity.startActivityForResult(pickImageIntent,PICK_ME_REQUEST_CODE);
 
     }
     @Override
@@ -101,7 +102,7 @@ public class PickImageFromGallery extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode== Activity.RESULT_OK && requestCode == PickImageFromGallery.PICK_ME_REQUEST_CODE){
-            Intent previewIntent = new Intent(PickImageFromGallery.this, PreviewActivity.class);
+            Intent previewIntent = new Intent(PickImageFromGallery.this,);
             previewIntent.putExtra("MEDIA_PATH",data.getData().toString());
             if(data.getData().toString().contains("image")){
                 previewIntent.putExtra("MEDIA_TYPE","IMAGE");
@@ -193,8 +194,8 @@ public class PickImageFromGallery extends AppCompatActivity {
         Log.i("PICK_ME",imageList.size()+" IMAGE LIST SIZE");
 
 
-        binding.recvImages.setAdapter(new GalleryImageAdapter(PickImageFromGallery.this,imageList));
-        binding.recvImages.setLayoutManager(new GridLayoutManager(PickImageFromGallery.this,2));
+      /*  binding.recvImages.setAdapter(new GalleryImageAdapter(PickImageFromGallery.this,imageList,this));
+        binding.recvImages.setLayoutManager(new GridLayoutManager(PickImageFromGallery.this,2));*/
         return imageList;
 
 
@@ -254,8 +255,8 @@ public class PickImageFromGallery extends AppCompatActivity {
 
 
         Log.i("PICK_ME",videoList.size()+" VIDEO LIST SIZE");
-           binding.recvImages.setAdapter(new GalleryVideoAdapter(PickImageFromGallery.this,videoList));
-        binding.recvImages.setLayoutManager(new GridLayoutManager(PickImageFromGallery.this,2));
+      /*     binding.recvImages.setAdapter(new GalleryVideoAdapter(PickImageFromGallery.this,videoList));
+        binding.recvImages.setLayoutManager(new GridLayoutManager(PickImageFromGallery.this,2));*/
         return videoList;
 
     }

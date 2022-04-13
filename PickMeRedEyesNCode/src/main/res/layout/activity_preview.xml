@@ -44,7 +44,20 @@
                 android:gravity="center"
                 android:text="Preview Media"
                 android:textColor="@color/white"
-                android:textSize="20dp"></TextView>
+                android:textSize="20dp"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_alignParentRight="true"
+                android:id="@+id/btnDone"
+                android:text="DONE"
+                android:background="@color/teal_200"
+                android:textColor="@color/white"
+                android:layout_height="wrap_content">
+
+            </Button>
+
+
+
         </RelativeLayout>
     </RelativeLayout>
     <ImageView
@@ -52,8 +65,11 @@
         android:layout_width="match_parent"
         android:layout_marginHorizontal="12dp"
         android:id="@+id/ivMediaImage"
+        android:visibility="gone"
         android:layout_marginTop="10dp"
-        android:layout_height="wrap_content">
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="25dp"
+        android:layout_height="match_parent">
     </ImageView>
 
 

@@ -1,5 +1,6 @@
 package com.redeyesncode.pickmeredeyesncode.view;
 
+import android.app.Activity;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 
@@ -17,6 +19,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.redeyesncode.pickmeredeyesncode.R;
 import com.redeyesncode.pickmeredeyesncode.adapter.GalleryImageAdapter;
@@ -42,17 +45,20 @@ public class GalleryImageFragment extends Fragment implements GalleryImageAdapte
     private static final String ARG_PARAM2 = "param2";
     private Context context;
     private FragmentGalleryImageBinding binding;
+    private final int CAMERA_PIC_REQUEST = 35;
 
     @Override
     public void onImageClick(int position, String name, Uri uri) {
         if(name.contains("REDEYESNCODE")){
             //OPEN THE CAMERA FOR THE USER TO CLICK AN IMAGE.
-
+            Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+            startActivityForResult(cameraIntent, CAMERA_PIC_REQUEST);
 
         }else {
 
             Intent previewIntent = new Intent(context,PreviewActivity.class);
-            previewIntent.putExtra("IMAGE_PATH",name);
+            previewIntent.putExtra("MEDIA_TYPE","IMAGE");
+            previewIntent.putExtra("IMAGE_PATH",uri.toString());
             startActivity(previewIntent);
 
         }
@@ -111,6 +117,21 @@ public class GalleryImageFragment extends Fragment implements GalleryImageAdapte
         return  binding.getRoot();
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode== Activity.RESULT_OK && requestCode == CAMERA_PIC_REQUEST){
+            Intent previewIntent = new Intent(context,PreviewActivity.class);
+            previewIntent.putExtra("MEDIA_TYPE","IMAGE");
+            previewIntent.putExtra("IMAGE_PATH",data.getExtras().get("data").toString());
+            startActivityForResult(previewIntent,81);
+
+
+        }else if(requestCode==81){
+            Toast.makeText(context, "RETURN 2 HOME WITH URI", Toast.LENGTH_SHORT).show();
+        }
+
+    }
 
     private List<Image> fetchGalleryImagesIntoRecyclerView(){
 
