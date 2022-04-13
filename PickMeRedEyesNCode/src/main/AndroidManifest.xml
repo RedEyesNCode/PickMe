@@ -4,6 +4,7 @@
     <!-- THESE TWO PERMISSION ARE NEEDED IN ORDER TO GET THE IMAGE FROM THE GALLERY. -->
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application>
         <activity

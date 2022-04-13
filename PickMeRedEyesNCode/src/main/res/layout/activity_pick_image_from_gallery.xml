@@ -47,4 +47,18 @@
         </RelativeLayout>
     </RelativeLayout>
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recvImages"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbartop"
+        android:layout_marginHorizontal="12dp"
+        android:layout_marginTop="8dp"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:spanCount="3"
+        tools:listitem="@layout/media_list">
+
+
+    </androidx.recyclerview.widget.RecyclerView>
+
 </RelativeLayout>
