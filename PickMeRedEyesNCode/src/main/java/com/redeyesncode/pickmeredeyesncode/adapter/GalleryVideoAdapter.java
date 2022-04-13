@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.redeyesncode.pickmeredeyesncode.databinding.MediaListBinding;
+import com.redeyesncode.pickmeredeyesncode.model.Video;
 
 import java.util.List;
 

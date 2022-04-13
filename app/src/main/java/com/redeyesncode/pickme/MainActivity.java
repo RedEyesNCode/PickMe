@@ -17,7 +17,7 @@ import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.redeyesncode.pickme.databinding.ActivityMainBinding;
-import com.redeyesncode.pickmeredeyesncode.PickImageFromGallery;
+import com.redeyesncode.pickmeredeyesncode.view.PickImageFromGallery;
 
 import java.util.List;
 

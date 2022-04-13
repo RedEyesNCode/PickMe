@@ -1,7 +1,6 @@
 package com.redeyesncode.pickmeredeyesncode.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.redeyesncode.pickmeredeyesncode.databinding.MediaListBinding;
+import com.redeyesncode.pickmeredeyesncode.model.Image;
 
 import java.util.List;
 
@@ -36,8 +36,12 @@ public class GalleryImageAdapter extends RecyclerView.Adapter<GalleryImageAdapte
     public void onBindViewHolder(@NonNull MyViewholder holder, int position) {
         Image image = filesPaths.get(position);
 
+        if(!image.getImagePath().isEmpty()){
+            Glide.with(context).load(image.getImagePath()).into(holder.binding.ImageTumbnail);
+        }else {
+            holder.binding.ImageTumbnail.setImageResource(image.getResourceId());
+        }
 
-        Glide.with(context).load(image.getImagePath()).into(holder.binding.ImageTumbnail);
 
 
 

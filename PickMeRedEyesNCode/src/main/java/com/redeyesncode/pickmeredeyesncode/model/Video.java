@@ -1,4 +1,4 @@
-package com.redeyesncode.pickmeredeyesncode.adapter;
+package com.redeyesncode.pickmeredeyesncode.model;
 
 import android.net.Uri;
 

@@ -1,87 +1,101 @@
-package com.redeyesncode.pickmeredeyesncode;
+package com.redeyesncode.pickmeredeyesncode.view;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
-
-import android.app.Activity;
 import android.content.ContentUris;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
+import com.redeyesncode.pickmeredeyesncode.R;
 import com.redeyesncode.pickmeredeyesncode.adapter.GalleryImageAdapter;
 import com.redeyesncode.pickmeredeyesncode.adapter.GalleryVideoAdapter;
-import com.redeyesncode.pickmeredeyesncode.adapter.Image;
-import com.redeyesncode.pickmeredeyesncode.adapter.Video;
-import com.redeyesncode.pickmeredeyesncode.databinding.ActivityPickImageFromGalleryBinding;
+import com.redeyesncode.pickmeredeyesncode.databinding.FragmentGalleryImageBinding;
+import com.redeyesncode.pickmeredeyesncode.model.Image;
+import com.redeyesncode.pickmeredeyesncode.model.Video;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class PickImageFromGallery extends AppCompatActivity {
-    private ActivityPickImageFromGalleryBinding binding;
-    public PickImageFromGallery() {
-    }
+/**
+ * A simple {@link Fragment} subclass.
+ * Use the {@link GalleryImageFragment#newInstance} factory method to
+ * create an instance of this fragment.
+ */
+public class GalleryImageFragment extends Fragment {
 
-    public static final int PICK_ME_REQUEST_CODE =10;
+    // TODO: Rename parameter arguments, choose names that match
+    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
+    private Context context;
+    private FragmentGalleryImageBinding binding;
 
-    public Intent getIntent(Context context){
-        //This Method is Used to Get the Images from the Gallery with the Default Picker
-        Intent openGallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
 
-        return openGallery;
-
-    }
-    public void goToPickActivity(Context context){
-        Intent pickImageIntent = new Intent(context,PickImageFromGallery.class);
-        //You need to Add the Context parameter in Order to use the Activity Methods Outside onCreate of any activity context.Methods-Name.
-        context.startActivity(pickImageIntent);
-
-    }
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        this.context = context;
+
+    }
+
+    // TODO: Rename and change types of parameters
+    private String mParam1;
+    private String mParam2;
+
+    public GalleryImageFragment() {
+        // Required empty public constructor
+    }
+
+    /**
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
+     *
+     * @param param1 Parameter 1.
+     * @param param2 Parameter 2.
+     * @return A new instance of fragment GalleryImageFragment.
+     */
+    // TODO: Rename and change types and number of parameters
+    public static GalleryImageFragment newInstance(String param1, String param2) {
+        GalleryImageFragment fragment = new GalleryImageFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_PARAM2, param2);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityPickImageFromGalleryBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-
-        /*startActivityForResult(getIntent(this),PICK_ME_REQUEST_CODE);*/
-        fetchGalleryImagesIntoRecyclerView(); // Working on the Query of this Method to fetch the Images
-        /*getVideosFromGallery();*/ // This Method is Used to get the Video Stored in the Local Phone Storage.
-
-        binding.backIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onBackPressed();
-            }
-        });
-
-
-
+        if (getArguments() != null) {
+            mParam1 = getArguments().getString(ARG_PARAM1);
+            mParam2 = getArguments().getString(ARG_PARAM2);
+        }
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode== Activity.RESULT_OK && requestCode == PickImageFromGallery.PICK_ME_REQUEST_CODE){
-            Intent previewIntent = new Intent(PickImageFromGallery.this,PreviewActivity.class);
-            previewIntent.putExtra("MEDIA_PATH",data.getData().toString());
-            if(data.getData().toString().contains("image")){
-                previewIntent.putExtra("MEDIA_TYPE","IMAGE");
-            }else {
-                previewIntent.putExtra("MEDIA_TYPE","VIDEO");
-            }
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        binding = FragmentGalleryImageBinding.inflate(inflater,container,false);
+        fetchGalleryImagesIntoRecyclerView();
 
-            startActivity(previewIntent);
-        }
-
+        return  binding.getRoot();
     }
+
+
     private List<Image> fetchGalleryImagesIntoRecyclerView(){
 
         List<Image> imageList = new ArrayList<Image>();
@@ -114,7 +128,7 @@ public class PickImageFromGallery extends AppCompatActivity {
 
 
         Uri uri = MediaStore.Files.getContentUri("external"); // THIS THE URI USED TO QUERY THE PARAMETERS USED. FOR GETTING THE IMAGES FROM THE GALLERY AND THE IMAGES.
-        try (Cursor cursor = getApplicationContext().getContentResolver().query(
+        try (Cursor cursor = context.getContentResolver().query(
                 uri,
                 strArr,
                 null, //YOU NEED TO ADD THE NULL PARAMETERS FOR THE CHANGE IN THE URI.
@@ -147,9 +161,10 @@ public class PickImageFromGallery extends AppCompatActivity {
                 System.out.println("ORIGINAL_PATH: "+originalPath);
                 // Stores column values and the contentUri in a local object
                 // that represents the media file.
+                /*imageList.add(new Image(contentUri,"","",0,R.drawable.ic_add_image));*/
 
                 if(mediaTypeFinal==1){
-                    imageList.add(new Image(contentUri, originalPath,name, size));
+                    imageList.add(new Image(contentUri, originalPath,name, size,0));
                 }
 
 
@@ -160,8 +175,9 @@ public class PickImageFromGallery extends AppCompatActivity {
         Log.i("PICK_ME",imageList.size()+" IMAGE LIST SIZE");
 
 
-        binding.recvImages.setAdapter(new GalleryImageAdapter(PickImageFromGallery.this,imageList));
-        binding.recvImages.setLayoutManager(new GridLayoutManager(PickImageFromGallery.this,2));
+
+        binding.recvImages.setAdapter(new GalleryImageAdapter(context,imageList));
+        binding.recvImages.setLayoutManager(new GridLayoutManager(context,2));
         return imageList;
 
 
@@ -188,7 +204,7 @@ public class PickImageFromGallery extends AppCompatActivity {
                 String.valueOf(TimeUnit.MILLISECONDS.convert(5, TimeUnit.MINUTES))};
         String sortOrder = MediaStore.Video.Media.DISPLAY_NAME + " ASC";
 
-        try (Cursor cursor = getApplicationContext().getContentResolver().query(
+        try (Cursor cursor = context.getContentResolver().query(
                 collection,
                 projection,
                 selection,
@@ -221,12 +237,10 @@ public class PickImageFromGallery extends AppCompatActivity {
 
 
         Log.i("PICK_ME",videoList.size()+" VIDEO LIST SIZE");
-           binding.recvImages.setAdapter(new GalleryVideoAdapter(PickImageFromGallery.this,videoList));
-        binding.recvImages.setLayoutManager(new GridLayoutManager(PickImageFromGallery.this,2));
+        binding.recvImages.setAdapter(new GalleryVideoAdapter(context,videoList));
+        binding.recvImages.setLayoutManager(new GridLayoutManager(context,2));
         return videoList;
 
     }
-
-
 
 }

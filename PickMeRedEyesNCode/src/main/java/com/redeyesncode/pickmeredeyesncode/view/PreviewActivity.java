@@ -1,4 +1,4 @@
-package com.redeyesncode.pickmeredeyesncode;
+package com.redeyesncode.pickmeredeyesncode.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 

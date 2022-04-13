@@ -1,4 +1,4 @@
-package com.redeyesncode.pickmeredeyesncode.adapter;
+package com.redeyesncode.pickmeredeyesncode.model;
 
 import android.net.Uri;
 
@@ -8,12 +8,16 @@ public class Image {
     private final String name;
     private final int size;
     private final String imagePath;
+    private final int resourceId;
 
-    public Image(Uri uri, String imagePath,String name, int size) {
+
+    public Image(Uri uri, String imagePath,String name, int size, int resourceId) {
         this.uri = uri;
         this.imagePath = imagePath;
         this.name = name;
         this.size = size;
+        this.resourceId = resourceId;
+
     }
 
     public Uri getUri() {
@@ -26,6 +30,10 @@ public class Image {
 
     public int getSize() {
         return size;
+    }
+
+    public int getResourceId() {
+        return resourceId;
     }
 
     public String getImagePath() {
