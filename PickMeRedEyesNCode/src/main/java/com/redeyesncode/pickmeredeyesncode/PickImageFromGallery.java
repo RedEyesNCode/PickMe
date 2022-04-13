@@ -93,49 +93,75 @@ public class PickImageFromGallery extends AppCompatActivity {
             collection = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
         }
 
+
         String[] projection = new String[] {
+                MediaStore.MediaColumns.DATA,
                 MediaStore.Images.Media._ID,
                 MediaStore.Images.Media.DISPLAY_NAME,
                 MediaStore.Images.Media.SIZE
         };
+
+        String[] strArr = {"_data", "mime_type","media_type", "_display_name","_data", "datetaken", "_size", "width", "height", "_id"
+                , "title", "bucket_id", "bucket_display_name", "date_added", "date_modified"};
+        //these are the things we need to query from the
+
         String selection = MediaStore.Images.Media.AUTHOR +
                 " >= ?";
         String[] selectionArgs = new String[] {""};
-        String sortOrder = MediaStore.Images.Media.DISPLAY_NAME + " ASC";
 
+
+        String sortOrder = MediaStore.Files.FileColumns.DATE_TAKEN+" DESC"; //ASC // DESC //SORTING DONE ADDING THE IMAGES ACCORDING TO THE LATEST IMAGE IS SHOWN FIRST.
+
+
+        Uri uri = MediaStore.Files.getContentUri("external"); // THIS THE URI USED TO QUERY THE PARAMETERS USED. FOR GETTING THE IMAGES FROM THE GALLERY AND THE IMAGES.
         try (Cursor cursor = getApplicationContext().getContentResolver().query(
-                collection,
-                projection,
-                selection,
-                selectionArgs,
+                uri,
+                strArr,
+                null, //YOU NEED TO ADD THE NULL PARAMETERS FOR THE CHANGE IN THE URI.
+                null,
                 sortOrder
         )) {
             // Cache column indices.
             int idColumn = cursor.getColumnIndexOrThrow(MediaStore.Images.Media._ID);
-            int nameColumn =
-                    cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DISPLAY_NAME);
+            int nameColumn = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DISPLAY_NAME);
             int sizeColumn = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.SIZE);
+
+            //ADDED THIS TO CHECK THE TYPE OF THE MEDIA AND ADD ONLY THE IMAGES TYPE IN THE MEDIA.
+
+            int mediaType = cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.MEDIA_TYPE);
 
             while (cursor.moveToNext()) {
                 // Get values of columns for a given video.
                 long id = cursor.getLong(idColumn);
                 String name = cursor.getString(nameColumn);
                 int size = cursor.getInt(sizeColumn);
+                int mediaTypeFinal = cursor.getInt(mediaType);
 
                 Uri contentUri = ContentUris.withAppendedId(
                         MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id);
 
+                System.out.println("URI: "+contentUri.toString());
+
+
+                String originalPath = cursor.getString(cursor.getColumnIndex("_data"));
+                System.out.println("ORIGINAL_PATH: "+originalPath);
                 // Stores column values and the contentUri in a local object
                 // that represents the media file.
-                imageList.add(new Image(contentUri, name, size));
+
+                if(mediaTypeFinal==1){
+                    imageList.add(new Image(contentUri, originalPath,name, size));
+                }
+
+
             }
         }
 
 
         Log.i("PICK_ME",imageList.size()+" IMAGE LIST SIZE");
-       /* binding.recvImages.setAdapter(new GalleryAdapter(PickImageFromGallery.this,imageList));
-        binding.recvImages.setLayoutManager(new GridLayoutManager(PickImageFromGallery.this,3));
-*/
+
+
+        binding.recvImages.setAdapter(new GalleryImageAdapter(PickImageFromGallery.this,imageList));
+        binding.recvImages.setLayoutManager(new GridLayoutManager(PickImageFromGallery.this,2));
         return imageList;
 
 
@@ -196,7 +222,7 @@ public class PickImageFromGallery extends AppCompatActivity {
 
         Log.i("PICK_ME",videoList.size()+" VIDEO LIST SIZE");
            binding.recvImages.setAdapter(new GalleryVideoAdapter(PickImageFromGallery.this,videoList));
-        binding.recvImages.setLayoutManager(new GridLayoutManager(PickImageFromGallery.this,3));
+        binding.recvImages.setLayoutManager(new GridLayoutManager(PickImageFromGallery.this,2));
         return videoList;
 
     }
