@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
 import com.redeyesncode.pickmeredeyesncode.adapter.GalleryImageAdapter;
@@ -35,6 +36,8 @@ public class PickImageFromGallery extends AppCompatActivity {
     }
 
     public static final int PICK_ME_REQUEST_CODE =10;
+    public static final int PICK_ME_IMAGE_CODE =87;
+    public static final int PICK_ME_VIDEO_CODE =82;
 
     public Intent getIntent(Context context){
         //This Method is Used to Get the Images from the Gallery with the Default Picker
@@ -95,23 +98,6 @@ public class PickImageFromGallery extends AppCompatActivity {
         });
 
 
-
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode== Activity.RESULT_OK && requestCode == PickImageFromGallery.PICK_ME_REQUEST_CODE){
-            Intent previewIntent = new Intent(PickImageFromGallery.this,);
-            previewIntent.putExtra("MEDIA_PATH",data.getData().toString());
-            if(data.getData().toString().contains("image")){
-                previewIntent.putExtra("MEDIA_TYPE","IMAGE");
-            }else {
-                previewIntent.putExtra("MEDIA_TYPE","VIDEO");
-            }
-
-            startActivity(previewIntent);
-        }
 
     }
     private List<Image> fetchGalleryImagesIntoRecyclerView(){

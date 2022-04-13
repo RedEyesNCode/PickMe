@@ -1,5 +1,6 @@
 package com.redeyesncode.pickme;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
@@ -10,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.View;
+import android.widget.Toast;
 
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
@@ -78,5 +80,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         builder.show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==PickImageFromGallery.PICK_ME_REQUEST_CODE){
+            String uriFinal = data.getStringExtra("URI_FINAL");
+            Uri PICKEDuri = Uri.parse(uriFinal);
+            binding.setMediaImage.setImageURI(PICKEDuri);
+
+        }
+
     }
 }

@@ -37,7 +37,7 @@ import java.util.concurrent.TimeUnit;
  * Use the {@link GalleryImageFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class GalleryImageFragment extends Fragment implements GalleryImageAdapter.onClicked {
+public class GalleryImageFragment extends Fragment implements GalleryImageAdapter.onClicked{
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -46,6 +46,8 @@ public class GalleryImageFragment extends Fragment implements GalleryImageAdapte
     private Context context;
     private FragmentGalleryImageBinding binding;
     private final int CAMERA_PIC_REQUEST = 35;
+
+
 
     @Override
     public void onImageClick(int position, String name, Uri uri) {
@@ -59,7 +61,7 @@ public class GalleryImageFragment extends Fragment implements GalleryImageAdapte
             Intent previewIntent = new Intent(context,PreviewActivity.class);
             previewIntent.putExtra("MEDIA_TYPE","IMAGE");
             previewIntent.putExtra("IMAGE_PATH",uri.toString());
-            startActivity(previewIntent);
+            startActivityForResult(previewIntent,PickImageFromGallery.PICK_ME_IMAGE_CODE);
 
         }
 
@@ -127,11 +129,19 @@ public class GalleryImageFragment extends Fragment implements GalleryImageAdapte
             startActivityForResult(previewIntent,81);
 
 
-        }else if(requestCode==81){
-            Toast.makeText(context, "RETURN 2 HOME WITH URI", Toast.LENGTH_SHORT).show();
+        }else if(requestCode==PickImageFromGallery.PICK_ME_IMAGE_CODE){
+            String uriFinal = data.getStringExtra("URI_FINAL");
+            Intent backWithUriDataIntent = new Intent();
+            backWithUriDataIntent.putExtra("URI_FINAL",uriFinal);
+
+            //USING GET ACTIVITY IN FRAGMENT
+            getActivity().setResult(PickImageFromGallery.PICK_ME_REQUEST_CODE,backWithUriDataIntent);
+            getActivity().onBackPressed();
+
         }
 
     }
+
 
     private List<Image> fetchGalleryImagesIntoRecyclerView(){
 
@@ -280,5 +290,6 @@ public class GalleryImageFragment extends Fragment implements GalleryImageAdapte
         return videoList;
 
     }
+
 
 }
