@@ -2,10 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.redeyesncode.pickmeredeyesncode" >
     <!-- THESE TWO PERMISSION ARE NEEDED IN ORDER TO GET THE IMAGE FROM THE GALLERY. -->
-    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
-
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION" />
     <application>
         <activity
             android:name=".PickImageFromGallery"

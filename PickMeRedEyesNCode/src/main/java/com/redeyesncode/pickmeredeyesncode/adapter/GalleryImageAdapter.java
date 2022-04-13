@@ -11,15 +11,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.redeyesncode.pickmeredeyesncode.databinding.MediaListBinding;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewholder> {
+public class GalleryImageAdapter extends RecyclerView.Adapter<GalleryImageAdapter.MyViewholder> {
 
     private Context context;
-    private List<String> filesPaths;
+    private List<Image> filesPaths;
 
-    public GalleryAdapter(Context context, List<String> filesPaths) {
+    public GalleryImageAdapter(Context context, List<Image> filesPaths) {
         this.context = context;
         this.filesPaths = filesPaths;
     }
@@ -34,8 +33,10 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewho
 
     @Override
     public void onBindViewHolder(@NonNull MyViewholder holder, int position) {
+        Image image = filesPaths.get(position);
+        Glide.with(context).load(image.getUri()).into(holder.binding.ImageTumbnail);
 
-        Glide.with(context).load(filesPaths.get(position)).centerCrop().into(holder.binding.ImageTumbnail);
+
 
 
     }

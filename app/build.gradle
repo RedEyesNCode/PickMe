@@ -44,7 +44,7 @@ dependencies {
 
     //BELOW IS THE LINE TO USE THE LIBARY LOCALLY IN THE ANDROID PROJECT TO JUST MADE.
     implementation project(path: ':PickMeRedEyesNCode')
-
+    implementation 'com.karumi:dexter:6.2.3'
 
 
 

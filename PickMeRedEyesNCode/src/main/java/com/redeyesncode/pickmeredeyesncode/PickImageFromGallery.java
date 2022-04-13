@@ -4,20 +4,26 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import android.app.Activity;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
-import com.redeyesncode.pickmeredeyesncode.adapter.GalleryAdapter;
+import com.redeyesncode.pickmeredeyesncode.adapter.GalleryImageAdapter;
+import com.redeyesncode.pickmeredeyesncode.adapter.GalleryVideoAdapter;
+import com.redeyesncode.pickmeredeyesncode.adapter.Image;
+import com.redeyesncode.pickmeredeyesncode.adapter.Video;
 import com.redeyesncode.pickmeredeyesncode.databinding.ActivityPickImageFromGalleryBinding;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class PickImageFromGallery extends AppCompatActivity {
     private ActivityPickImageFromGalleryBinding binding;
@@ -46,7 +52,9 @@ public class PickImageFromGallery extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         /*startActivityForResult(getIntent(this),PICK_ME_REQUEST_CODE);*/
-        fetchGalleryImagesIntoRecyclerView();
+        fetchGalleryImagesIntoRecyclerView(); // Working on the Query of this Method to fetch the Images
+        /*getVideosFromGallery();*/ // This Method is Used to get the Video Stored in the Local Phone Storage.
+
         binding.backIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -74,42 +82,125 @@ public class PickImageFromGallery extends AppCompatActivity {
         }
 
     }
-    private List<String> fetchGalleryImagesIntoRecyclerView(){
+    private List<Image> fetchGalleryImagesIntoRecyclerView(){
 
-        // This Below Method is Used to Get the Images from the Internal SD card Only.
+        List<Image> imageList = new ArrayList<Image>();
 
-        List<String> fileList = new ArrayList<>();
-
-        final String[] columns = { MediaStore.Images.Media.DATA, MediaStore.Images.Media._ID };
-        final String orderBy = MediaStore.Images.Media._ID;
-
-        //Stores all the images from the gallery in Cursor
-        Cursor cursor = managedQuery(
-                MediaStore.Images.Media.INTERNAL_CONTENT_URI, columns, null,
-                null, orderBy);
-
-        //Total number of images
-        int count = cursor.getCount();
-
-        //Create an array to store path to all the images
-        String[] arrPath = new String[count];
-
-        for (int i = 0; i < count; i++) {
-            cursor.moveToPosition(i);
-            int dataColumnIndex = cursor.getColumnIndex(MediaStore.Images.Media.DATA);
-
-            arrPath[i]= cursor.getString(dataColumnIndex);
-            fileList.add(arrPath[i]);
+        Uri collection;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            collection = MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL);
+        } else {
+            collection = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
         }
 
-        Log.i("PICK_ME",fileList.size()+"");
-        binding.recvImages.setAdapter(new GalleryAdapter(PickImageFromGallery.this,fileList));
-        binding.recvImages.setLayoutManager(new GridLayoutManager(PickImageFromGallery.this,3));
+        String[] projection = new String[] {
+                MediaStore.Images.Media._ID,
+                MediaStore.Images.Media.DISPLAY_NAME,
+                MediaStore.Images.Media.SIZE
+        };
+        String selection = MediaStore.Images.Media.AUTHOR +
+                " >= ?";
+        String[] selectionArgs = new String[] {""};
+        String sortOrder = MediaStore.Images.Media.DISPLAY_NAME + " ASC";
 
-        return fileList;
+        try (Cursor cursor = getApplicationContext().getContentResolver().query(
+                collection,
+                projection,
+                selection,
+                selectionArgs,
+                sortOrder
+        )) {
+            // Cache column indices.
+            int idColumn = cursor.getColumnIndexOrThrow(MediaStore.Images.Media._ID);
+            int nameColumn =
+                    cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DISPLAY_NAME);
+            int sizeColumn = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.SIZE);
+
+            while (cursor.moveToNext()) {
+                // Get values of columns for a given video.
+                long id = cursor.getLong(idColumn);
+                String name = cursor.getString(nameColumn);
+                int size = cursor.getInt(sizeColumn);
+
+                Uri contentUri = ContentUris.withAppendedId(
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id);
+
+                // Stores column values and the contentUri in a local object
+                // that represents the media file.
+                imageList.add(new Image(contentUri, name, size));
+            }
+        }
+
+
+        Log.i("PICK_ME",imageList.size()+" IMAGE LIST SIZE");
+       /* binding.recvImages.setAdapter(new GalleryAdapter(PickImageFromGallery.this,imageList));
+        binding.recvImages.setLayoutManager(new GridLayoutManager(PickImageFromGallery.this,3));
+*/
+        return imageList;
 
 
     }
+    private List<Video> getVideosFromGallery(){
+        List<Video> videoList = new ArrayList<Video>();
+
+        Uri collection;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            collection = MediaStore.Video.Media.getContentUri(MediaStore.VOLUME_EXTERNAL);
+        } else {
+            collection = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+        }
+
+        String[] projection = new String[] {
+                MediaStore.Video.Media._ID,
+                MediaStore.Video.Media.DISPLAY_NAME,
+                MediaStore.Video.Media.DURATION,
+                MediaStore.Video.Media.SIZE
+        };
+        String selection = MediaStore.Video.Media.DURATION +
+                " >= ?";
+        String[] selectionArgs = new String[] {
+                String.valueOf(TimeUnit.MILLISECONDS.convert(5, TimeUnit.MINUTES))};
+        String sortOrder = MediaStore.Video.Media.DISPLAY_NAME + " ASC";
+
+        try (Cursor cursor = getApplicationContext().getContentResolver().query(
+                collection,
+                projection,
+                selection,
+                selectionArgs,
+                sortOrder
+        )) {
+            // Cache column indices.
+            int idColumn = cursor.getColumnIndexOrThrow(MediaStore.Video.Media._ID);
+            int nameColumn =
+                    cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DISPLAY_NAME);
+            int durationColumn =
+                    cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DURATION);
+            int sizeColumn = cursor.getColumnIndexOrThrow(MediaStore.Video.Media.SIZE);
+
+            while (cursor.moveToNext()) {
+                // Get values of columns for a given video.
+                long id = cursor.getLong(idColumn);
+                String name = cursor.getString(nameColumn);
+                int duration = cursor.getInt(durationColumn);
+                int size = cursor.getInt(sizeColumn);
+
+                Uri contentUri = ContentUris.withAppendedId(
+                        MediaStore.Video.Media.EXTERNAL_CONTENT_URI, id);
+
+                // Stores column values and the contentUri in a local object
+                // that represents the media file.
+                videoList.add(new Video(contentUri, name, duration, size));
+            }
+        }
+
+
+        Log.i("PICK_ME",videoList.size()+" VIDEO LIST SIZE");
+           binding.recvImages.setAdapter(new GalleryVideoAdapter(PickImageFromGallery.this,videoList));
+        binding.recvImages.setLayoutManager(new GridLayoutManager(PickImageFromGallery.this,3));
+        return videoList;
+
+    }
+
 
 
 }

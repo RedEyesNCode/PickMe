@@ -2,11 +2,24 @@ package com.redeyesncode.pickme;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.View;
 
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.redeyesncode.pickme.databinding.ActivityMainBinding;
 import com.redeyesncode.pickmeredeyesncode.PickImageFromGallery;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,10 +35,48 @@ public class MainActivity extends AppCompatActivity {
         binding.btnPickMedia.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PickImageFromGallery pickImageFromGallery = new PickImageFromGallery();
-                pickImageFromGallery.goToPickActivity(MainActivity.this);
-
+               checkPermission();
             }
         });
+    }
+    private void checkPermission(){
+        Dexter.withContext(MainActivity.this).withPermissions(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.ACCESS_MEDIA_LOCATION).withListener(new MultiplePermissionsListener() {
+            @Override
+            public void onPermissionsChecked(MultiplePermissionsReport multiplePermissionsReport) {
+                if(multiplePermissionsReport.areAllPermissionsGranted()){
+                    PickImageFromGallery pickImageFromGallery = new PickImageFromGallery();
+                    pickImageFromGallery.goToPickActivity(MainActivity.this);                }else {
+                    showDialogSettings();
+                }
+            }
+
+            @Override
+            public void onPermissionRationaleShouldBeShown(List<PermissionRequest> list, PermissionToken permissionToken) {
+
+                permissionToken.continuePermissionRequest();
+            }
+        }).check();
+    }
+    private void showDialogSettings(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle("Need Permission");
+        builder.setMessage("This app needs permission to Download Shipping Label. You can grant them in app settings.");
+        builder.setPositiveButton("GOTO SETTINGS", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Intent intent = new Intent();
+                intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                Uri uri = Uri.fromParts("package", MainActivity.this.getPackageName(), null);
+                intent.setData(uri);
+                startActivity(intent);
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.cancel();
+            }
+        });
+        builder.show();
     }
 }
