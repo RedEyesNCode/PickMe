@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.camera.core.CameraSelector;
 import androidx.camera.lifecycle.ProcessCameraProvider;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 
@@ -35,8 +36,12 @@ import com.redeyesncode.pickmeredeyesncode.adapter.GalleryVideoAdapter;
 import com.redeyesncode.pickmeredeyesncode.databinding.FragmentGalleryImageBinding;
 import com.redeyesncode.pickmeredeyesncode.model.Image;
 import com.redeyesncode.pickmeredeyesncode.model.Video;
+import com.redeyesncode.pickmeredeyesncode.utils.BitmapUtils;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -61,7 +66,7 @@ public class GalleryImageFragment extends Fragment implements GalleryImageAdapte
     private Context context;
     private FragmentGalleryImageBinding binding;
     private final int CAMERA_PIC_REQUEST = 35;
-
+    private String mTempPhotoPath;
     private ListenableFuture<ProcessCameraProvider> cameraProviderListenableFuture;
 
 
@@ -71,18 +76,7 @@ public class GalleryImageFragment extends Fragment implements GalleryImageAdapte
     public void onImageClick(int position, String name, Uri uri) {
         if(name.contains("REDEYESNCODE")){
             //CODE TO STORE THE IMAGE USING THE IMAGE URI
-
-            //OPEN THE CAMERA FOR THE USER TO CLICK AN IMAGE.
-
-
-
-
-                Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(cameraIntent, CAMERA_PIC_REQUEST);
-
-
-
-
+            cameraIntent();
             // THESE ARE THE OLD METHODS TO TAKE THE CAMERA PHOTOS.
 
 
@@ -155,16 +149,8 @@ public class GalleryImageFragment extends Fragment implements GalleryImageAdapte
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == CAMERA_PIC_REQUEST){
 
-            //THIS IS THE RESULT FROM THE CAMERA FOR THE IMAGE CLICKED BY THE USER.
-
-            //TASK IS TO GET THE URI AND OF THE CLICKED IMAGE SAVE IT AND SEND IT TO THE PREVIEW SCREEN.
 
 
-            Intent previewIntent = new Intent(context,PreviewActivity.class);
-            previewIntent.putExtra("MEDIA_TYPE","IMAGE");
-            previewIntent.putExtra("IMAGE_PATH",data.getData().toString());
-
-            startActivityForResult(previewIntent,81);
 
 
         }else if(requestCode==PickImageFromGallery.PICK_ME_IMAGE_CODE){
@@ -185,6 +171,34 @@ public class GalleryImageFragment extends Fragment implements GalleryImageAdapte
 
     }
 
+    private void saveCameraImage(Intent data){
+        Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+
+        File destination = new File(Environment.getExternalStorageDirectory(),
+                System.currentTimeMillis() + ".jpg");
+
+        FileOutputStream fo;
+        try {
+            destination.createNewFile();
+            fo = new FileOutputStream(destination);
+            fo.write(bytes.toByteArray());
+            fo.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+
+    }
+    private void cameraIntent(){
+
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(intent, CAMERA_PIC_REQUEST);
+    }
 
     private List<Image> fetchGalleryImagesIntoRecyclerView(){
 
