@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 
@@ -17,6 +18,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.redeyesncode.pickmeredeyesncode.R;
 import com.redeyesncode.pickmeredeyesncode.adapter.GalleryImageAdapter;
@@ -42,12 +44,14 @@ public class GalleryVideoFragment extends Fragment implements GalleryVideoAdapte
     private static final String ARG_PARAM2 = "param2";
     private Context context;
     private FragmentGalleryVideoBinding binding;
+    private final int CAMERA_VIDEO_REQUEST = 23;
 
     @Override
     public void onVideoClick(int position, String name, Uri uri) {
         if (name.contains("REDEYESNCODE")){
             //OPEN THE INTENT FOR THE CAMERA FOR THE USER TO TAKE A VIDEO AND SAVE IT.
-
+            Intent cameraIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+            startActivityForResult(cameraIntent, CAMERA_VIDEO_REQUEST);
 
         }else {
             Intent previewIntent = new Intent(context,PreviewActivity.class);
@@ -259,4 +263,18 @@ public class GalleryVideoFragment extends Fragment implements GalleryVideoAdapte
 
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==CAMERA_VIDEO_REQUEST){
+            //THIS IS THE RESULT FROM THE CAMERA FOR THE VIDEO RECORDED BY THE USER.
+
+            //TASK IS TO GET THE URI AND OF THE RECORDED VIDEO SAVE IT AND SEND IT TO THE PREVIEW SCREEN.
+
+
+
+            Toast.makeText(context,"VIDEO TAKEN",Toast.LENGTH_LONG).show();
+        }
+
+    }
 }

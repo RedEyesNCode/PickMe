@@ -5,22 +5,30 @@ import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.camera.core.CameraSelector;
+import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 
+import android.os.Environment;
+import android.os.StrictMode;
 import android.provider.MediaStore;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.common.util.concurrent.ListenableFuture;
 import com.redeyesncode.pickmeredeyesncode.R;
 import com.redeyesncode.pickmeredeyesncode.adapter.GalleryImageAdapter;
 import com.redeyesncode.pickmeredeyesncode.adapter.GalleryVideoAdapter;
@@ -28,8 +36,15 @@ import com.redeyesncode.pickmeredeyesncode.databinding.FragmentGalleryImageBindi
 import com.redeyesncode.pickmeredeyesncode.model.Image;
 import com.redeyesncode.pickmeredeyesncode.model.Video;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Random;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -47,14 +62,30 @@ public class GalleryImageFragment extends Fragment implements GalleryImageAdapte
     private FragmentGalleryImageBinding binding;
     private final int CAMERA_PIC_REQUEST = 35;
 
+    private ListenableFuture<ProcessCameraProvider> cameraProviderListenableFuture;
+
+
 
 
     @Override
     public void onImageClick(int position, String name, Uri uri) {
         if(name.contains("REDEYESNCODE")){
+            //CODE TO STORE THE IMAGE USING THE IMAGE URI
+
             //OPEN THE CAMERA FOR THE USER TO CLICK AN IMAGE.
-            Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE_SECURE);
-            startActivityForResult(cameraIntent, CAMERA_PIC_REQUEST);
+
+
+
+
+                Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(cameraIntent, CAMERA_PIC_REQUEST);
+
+
+
+
+            // THESE ARE THE OLD METHODS TO TAKE THE CAMERA PHOTOS.
+
+
 
         }else {
 
@@ -126,9 +157,13 @@ public class GalleryImageFragment extends Fragment implements GalleryImageAdapte
 
             //THIS IS THE RESULT FROM THE CAMERA FOR THE IMAGE CLICKED BY THE USER.
 
+            //TASK IS TO GET THE URI AND OF THE CLICKED IMAGE SAVE IT AND SEND IT TO THE PREVIEW SCREEN.
+
+
             Intent previewIntent = new Intent(context,PreviewActivity.class);
             previewIntent.putExtra("MEDIA_TYPE","IMAGE");
-            previewIntent.putExtra("IMAGE_PATH",data.getExtras().get("data").toString());
+            previewIntent.putExtra("IMAGE_PATH",data.getData().toString());
+
             startActivityForResult(previewIntent,81);
 
 
@@ -298,6 +333,9 @@ public class GalleryImageFragment extends Fragment implements GalleryImageAdapte
         return videoList;
 
     }
+
+
+    //BELOW IS THE IMPLEMENTATION OF THE CameraX Feature Introduced in Android
 
 
 }
