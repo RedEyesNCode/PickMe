@@ -1,8 +1,6 @@
 package com.redeyesncode.pickmeredeyesncode.view;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.viewpager.widget.ViewPager;
 
 import android.app.Activity;
 import android.content.ContentUris;
@@ -15,11 +13,8 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
-import com.redeyesncode.pickmeredeyesncode.adapter.GalleryImageAdapter;
-import com.redeyesncode.pickmeredeyesncode.adapter.GalleryVideoAdapter;
 import com.redeyesncode.pickmeredeyesncode.adapter.TabsAdapter;
 import com.redeyesncode.pickmeredeyesncode.model.Image;
 import com.redeyesncode.pickmeredeyesncode.model.Video;
@@ -35,7 +30,8 @@ public class PickImageFromGallery extends AppCompatActivity {
     public PickImageFromGallery() {
     }
 
-    public static final int PICK_ME_REQUEST_CODE =10;
+    public static final int PICK_ME_REQUEST_CODE_GALLERY =10;
+    public static final int PICK_ME_REQUEST_CODE_VIDEO =10;
     public static final int PICK_ME_IMAGE_CODE =87;
     public static final int PICK_ME_VIDEO_CODE =82;
 
@@ -49,7 +45,7 @@ public class PickImageFromGallery extends AppCompatActivity {
     public void goToPickActivity(Activity activity){
         Intent pickImageIntent = new Intent(activity,PickImageFromGallery.class);
         //You need to Add the Context parameter in Order to use the Activity Methods Outside onCreate of any activity context.Methods-Name.
-        activity.startActivityForResult(pickImageIntent,PICK_ME_REQUEST_CODE);
+        activity.startActivityForResult(pickImageIntent, PICK_ME_REQUEST_CODE_GALLERY);
 
     }
     @Override

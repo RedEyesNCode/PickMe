@@ -41,6 +41,7 @@ public class PreviewActivity extends AppCompatActivity {
 
         }else if(mediaType.contains("BITMAP")){
             Bitmap bitmap = (Bitmap) getIntent().getParcelableExtra("IMAGE_PATH");
+            binding.ivMediaImage.setVisibility(View.VISIBLE);
             binding.ivMediaImage.setImageBitmap(bitmap);
 
         }
@@ -64,9 +65,21 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
             @Override
             public void onClick(View view) {
                 Intent backWithUriDataIntent = new Intent();
-                backWithUriDataIntent.putExtra("URI_FINAL",previewUri.toString());
-                setResult(81,backWithUriDataIntent);
-                finish();
+                if(mediaType.contains("BITMAP")){
+                    Bitmap bitmap = (Bitmap) getIntent().getParcelableExtra("IMAGE_PATH");
+                    backWithUriDataIntent.putExtra("MEDIA_TYPE","BITMAP");
+                    backWithUriDataIntent.putExtra("BITMAP_", bitmap);
+                    setResult(81,backWithUriDataIntent);
+                    finish();
+                }else {
+                    backWithUriDataIntent.putExtra("MEDIA_TYPE","IMAGE");
+                    backWithUriDataIntent.putExtra("URI_FINAL",previewUri.toString());
+                    setResult(81,backWithUriDataIntent);
+                    finish();
+                }
+
+
+
             }
         });
 

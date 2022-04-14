@@ -7,9 +7,11 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -85,13 +87,23 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==PickImageFromGallery.PICK_ME_REQUEST_CODE){
+        if(requestCode==PickImageFromGallery.PICK_ME_REQUEST_CODE_GALLERY){
             try {
-                String uriFinal = data.getStringExtra("URI_FINAL");
-                Uri PICKEDuri = Uri.parse(uriFinal);
-                binding.setMediaImage.setImageURI(PICKEDuri);
+                String mediaType = data.getStringExtra("MEDIA_TYPE");
+                if (mediaType.contains("BITMAP")){
+                    Bitmap bitmapMain = (Bitmap) data.getParcelableExtra("BITMAP_");
+                    binding.setMediaImage.setImageBitmap(bitmapMain);
+                }else {
+
+                    String uriFinal = data.getStringExtra("URI_FINAL");
+                    Uri PICKEDuri = Uri.parse(uriFinal);
+                    binding.setMediaImage.setImageURI(PICKEDuri);
+
+                }
+
 
             }catch (Exception e){
+                Log.i("PICK_ME",e.getMessage());
                 Toast.makeText(MainActivity.this, "No Image Was Selected", Toast.LENGTH_SHORT).show();
             }
 

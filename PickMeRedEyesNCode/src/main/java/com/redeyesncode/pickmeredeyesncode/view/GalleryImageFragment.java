@@ -12,47 +12,26 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-import androidx.camera.core.CameraSelector;
 import androidx.camera.core.ImageCapture;
-import androidx.camera.core.ImageCaptureException;
-import androidx.camera.core.Preview;
 import androidx.camera.lifecycle.ProcessCameraProvider;
-import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.GridLayoutManager;
 
-import android.os.Environment;
-import android.os.StrictMode;
 import android.provider.MediaStore;
-import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.google.common.util.concurrent.ListenableFuture;
 import com.redeyesncode.pickmeredeyesncode.R;
 import com.redeyesncode.pickmeredeyesncode.adapter.GalleryImageAdapter;
-import com.redeyesncode.pickmeredeyesncode.adapter.GalleryVideoAdapter;
 import com.redeyesncode.pickmeredeyesncode.databinding.FragmentGalleryImageBinding;
 import com.redeyesncode.pickmeredeyesncode.model.Image;
 import com.redeyesncode.pickmeredeyesncode.model.Video;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Random;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -174,13 +153,26 @@ public class GalleryImageFragment extends Fragment implements GalleryImageAdapte
 
         }else if(requestCode==PickImageFromGallery.PICK_ME_IMAGE_CODE){
             try {
-                String uriFinal = data.getStringExtra("URI_FINAL");
-                Intent backWithUriDataIntent = new Intent();
-                backWithUriDataIntent.putExtra("URI_FINAL",uriFinal);
+                String mediaType = data.getStringExtra("MEDIA_TYPE");
+                if(mediaType.contains("BITMAP")){
+                    Bitmap bitmapfinal = (Bitmap) data.getParcelableExtra("BITMAP_");
+                    Intent backWithUriDataIntent = new Intent();
+                    backWithUriDataIntent.putExtra("MEDIA_TYPE","BITMAP");
+                    backWithUriDataIntent.putExtra("BITMAP_", bitmapfinal);
+                    getActivity().setResult(PickImageFromGallery.PICK_ME_REQUEST_CODE_GALLERY,backWithUriDataIntent);
+                    getActivity().onBackPressed();
+                }else {
+                    String uriFinal = data.getStringExtra("URI_FINAL");
+                    Intent backWithUriDataIntent = new Intent();
+                    backWithUriDataIntent.putExtra("MEDIA_TYPE","IMAGE");
+                    backWithUriDataIntent.putExtra("URI_FINAL",uriFinal);
 
-                //USING GET ACTIVITY IN FRAGMENT
-                getActivity().setResult(PickImageFromGallery.PICK_ME_REQUEST_CODE,backWithUriDataIntent);
-                getActivity().onBackPressed();
+                    //USING GET ACTIVITY IN FRAGMENT
+                    getActivity().setResult(PickImageFromGallery.PICK_ME_REQUEST_CODE_GALLERY,backWithUriDataIntent);
+                    getActivity().onBackPressed();
+                }
+
+
             }catch (Exception e){
                 e.printStackTrace();
             }
