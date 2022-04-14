@@ -86,9 +86,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==PickImageFromGallery.PICK_ME_REQUEST_CODE){
-            String uriFinal = data.getStringExtra("URI_FINAL");
-            Uri PICKEDuri = Uri.parse(uriFinal);
-            binding.setMediaImage.setImageURI(PICKEDuri);
+            try {
+                String uriFinal = data.getStringExtra("URI_FINAL");
+                Uri PICKEDuri = Uri.parse(uriFinal);
+                binding.setMediaImage.setImageURI(PICKEDuri);
+
+            }catch (Exception e){
+                Toast.makeText(MainActivity.this, "No Image Was Selected", Toast.LENGTH_SHORT).show();
+            }
 
         }
 

@@ -53,7 +53,7 @@ public class GalleryImageFragment extends Fragment implements GalleryImageAdapte
     public void onImageClick(int position, String name, Uri uri) {
         if(name.contains("REDEYESNCODE")){
             //OPEN THE CAMERA FOR THE USER TO CLICK AN IMAGE.
-            Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+            Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE_SECURE);
             startActivityForResult(cameraIntent, CAMERA_PIC_REQUEST);
 
         }else {
@@ -122,7 +122,10 @@ public class GalleryImageFragment extends Fragment implements GalleryImageAdapte
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode== Activity.RESULT_OK && requestCode == CAMERA_PIC_REQUEST){
+        if(requestCode == CAMERA_PIC_REQUEST){
+
+            //THIS IS THE RESULT FROM THE CAMERA FOR THE IMAGE CLICKED BY THE USER.
+
             Intent previewIntent = new Intent(context,PreviewActivity.class);
             previewIntent.putExtra("MEDIA_TYPE","IMAGE");
             previewIntent.putExtra("IMAGE_PATH",data.getExtras().get("data").toString());
@@ -130,13 +133,18 @@ public class GalleryImageFragment extends Fragment implements GalleryImageAdapte
 
 
         }else if(requestCode==PickImageFromGallery.PICK_ME_IMAGE_CODE){
-            String uriFinal = data.getStringExtra("URI_FINAL");
-            Intent backWithUriDataIntent = new Intent();
-            backWithUriDataIntent.putExtra("URI_FINAL",uriFinal);
+            try {
+                String uriFinal = data.getStringExtra("URI_FINAL");
+                Intent backWithUriDataIntent = new Intent();
+                backWithUriDataIntent.putExtra("URI_FINAL",uriFinal);
 
-            //USING GET ACTIVITY IN FRAGMENT
-            getActivity().setResult(PickImageFromGallery.PICK_ME_REQUEST_CODE,backWithUriDataIntent);
-            getActivity().onBackPressed();
+                //USING GET ACTIVITY IN FRAGMENT
+                getActivity().setResult(PickImageFromGallery.PICK_ME_REQUEST_CODE,backWithUriDataIntent);
+                getActivity().onBackPressed();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
 
         }
 
