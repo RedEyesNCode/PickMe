@@ -37,6 +37,10 @@ public class PreviewActivity extends AppCompatActivity {
         }else if(mediaType.contains("VIDEO")){
             String mediaUri = getIntent().getStringExtra("VIDEO_PATH");
             previewUri = Uri.parse(mediaUri);
+            binding.ivMediaImage.setVisibility(View.GONE);
+            binding.previewVideo.setVisibility(View.VISIBLE);
+            binding.previewVideo.setVideoURI(previewUri);
+            binding.previewVideo.start();
             // LOADING THE EXO PLAYER TO PLAY THE VIDEO HERE.
 
         }else if(mediaType.contains("BITMAP")){

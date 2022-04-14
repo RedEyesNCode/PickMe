@@ -71,6 +71,15 @@
         android:layout_marginBottom="25dp"
         android:layout_height="match_parent">
     </ImageView>
+    <VideoView
+        android:layout_below="@id/toolbartop"
+        android:id="@+id/previewVideo"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+    </VideoView>
 
 
 

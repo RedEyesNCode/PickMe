@@ -268,12 +268,16 @@ public class GalleryVideoFragment extends Fragment implements GalleryVideoAdapte
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==CAMERA_VIDEO_REQUEST){
             //THIS IS THE RESULT FROM THE CAMERA FOR THE VIDEO RECORDED BY THE USER.
-
             //TASK IS TO GET THE URI AND OF THE RECORDED VIDEO SAVE IT AND SEND IT TO THE PREVIEW SCREEN.
+            //IN CASE OF THE VIDEO YOU WILL GET THE URI OF THE VIDEO RECORDED BY THE SUER
+
+            Uri videoUri =  data.getData();
+            Intent previewVideoIntent = new Intent(context,GalleryVideoFragment.class);
+            previewVideoIntent.putExtra("MEDIA_TYPE","VIDEO");
+            previewVideoIntent.putExtra("VIDEO_PATH",videoUri.toString());
+            getActivity().startActivityForResult(previewVideoIntent,PickImageFromGallery.PICK_ME_IMAGE_CODE);
 
 
-
-            Toast.makeText(context,"VIDEO TAKEN",Toast.LENGTH_LONG).show();
         }
 
     }
