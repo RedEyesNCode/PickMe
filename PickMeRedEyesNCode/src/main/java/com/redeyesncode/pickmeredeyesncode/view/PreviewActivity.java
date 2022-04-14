@@ -3,6 +3,7 @@ package com.redeyesncode.pickmeredeyesncode.view;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -38,9 +39,21 @@ public class PreviewActivity extends AppCompatActivity {
             previewUri = Uri.parse(mediaUri);
             // LOADING THE EXO PLAYER TO PLAY THE VIDEO HERE.
 
+        }else if(mediaType.contains("BITMAP")){
+            Bitmap bitmap = (Bitmap) getIntent().getParcelableExtra("IMAGE_PATH");
+            binding.ivMediaImage.setImageBitmap(bitmap);
+
         }
-
-
+/*https://developer.android.com/training/camera/photobasics*/
+/*@Override
+protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+        Bundle extras = data.getExtras();
+        Bitmap imageBitmap = (Bitmap) extras.get("data");
+        imageView.setImageBitmap(imageBitmap);
+    }
+}
+*/
         binding.backIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

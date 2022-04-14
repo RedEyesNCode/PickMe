@@ -14,9 +14,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.camera.core.CameraSelector;
+import androidx.camera.core.ImageCapture;
+import androidx.camera.core.ImageCaptureException;
+import androidx.camera.core.Preview;
 import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import android.os.Environment;
@@ -36,7 +40,6 @@ import com.redeyesncode.pickmeredeyesncode.adapter.GalleryVideoAdapter;
 import com.redeyesncode.pickmeredeyesncode.databinding.FragmentGalleryImageBinding;
 import com.redeyesncode.pickmeredeyesncode.model.Image;
 import com.redeyesncode.pickmeredeyesncode.model.Video;
-import com.redeyesncode.pickmeredeyesncode.utils.BitmapUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -68,16 +71,18 @@ public class GalleryImageFragment extends Fragment implements GalleryImageAdapte
     private final int CAMERA_PIC_REQUEST = 35;
     private String mTempPhotoPath;
     private ListenableFuture<ProcessCameraProvider> cameraProviderListenableFuture;
-
-
+    private ImageCapture imageCapture;
+    private  List<Image> imageList = new ArrayList<Image>();
+    private GalleryImageAdapter galleryImageAdapter;
 
 
     @Override
     public void onImageClick(int position, String name, Uri uri) {
         if(name.contains("REDEYESNCODE")){
             //CODE TO STORE THE IMAGE USING THE IMAGE URI
-            cameraIntent();
+
             // THESE ARE THE OLD METHODS TO TAKE THE CAMERA PHOTOS.
+            cameraIntent();
 
 
 
@@ -147,10 +152,24 @@ public class GalleryImageFragment extends Fragment implements GalleryImageAdapte
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == CAMERA_PIC_REQUEST){
+        if(requestCode == CAMERA_PIC_REQUEST && resultCode == Activity.RESULT_OK){
+            try {
+
+                Log.i("PICK_ME",data.getExtras().get("data").toString());
+                Intent previewIntent = new Intent(context,PreviewActivity.class);
+                previewIntent.putExtra("MEDIA_TYPE","BITMAP");
+
+                //GETTING THE CLICKED IMAGE BITMAP//
+
+                Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+
+                previewIntent.putExtra("IMAGE_PATH",bitmap);
+                startActivityForResult(previewIntent,PickImageFromGallery.PICK_ME_IMAGE_CODE);
 
 
-
+            }catch (Exception e){
+                Log.i("PICK_ME",e.getMessage());
+            }
 
 
         }else if(requestCode==PickImageFromGallery.PICK_ME_IMAGE_CODE){
@@ -172,37 +191,31 @@ public class GalleryImageFragment extends Fragment implements GalleryImageAdapte
     }
 
     private void saveCameraImage(Intent data){
-        Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
-
-        File destination = new File(Environment.getExternalStorageDirectory(),
-                System.currentTimeMillis() + ".jpg");
-
-        FileOutputStream fo;
-        try {
-            destination.createNewFile();
-            fo = new FileOutputStream(destination);
-            fo.write(bytes.toByteArray());
-            fo.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
 
 
     }
     private void cameraIntent(){
-
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
         startActivityForResult(intent, CAMERA_PIC_REQUEST);
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        fetchGalleryImagesIntoRecyclerView();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        fetchGalleryImagesIntoRecyclerView();
     }
 
     private List<Image> fetchGalleryImagesIntoRecyclerView(){
 
-        List<Image> imageList = new ArrayList<Image>();
+
 
         Uri collection;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -279,9 +292,8 @@ public class GalleryImageFragment extends Fragment implements GalleryImageAdapte
 
         Log.i("PICK_ME",imageList.size()+" IMAGE LIST SIZE");
 
-
-
-        binding.recvImages.setAdapter(new GalleryImageAdapter(context,imageList,this));
+        galleryImageAdapter = new GalleryImageAdapter(context,imageList,this);
+        binding.recvImages.setAdapter(galleryImageAdapter);
         binding.recvImages.setLayoutManager(new GridLayoutManager(context,2));
         return imageList;
 
