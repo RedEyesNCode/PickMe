@@ -159,6 +159,7 @@ public class GalleryImageFragment extends Fragment implements GalleryImageAdapte
                     Intent backWithUriDataIntent = new Intent();
                     backWithUriDataIntent.putExtra("MEDIA_TYPE","BITMAP");
                     backWithUriDataIntent.putExtra("BITMAP_", bitmapfinal);
+                    saveCameraImage(data);
                     getActivity().setResult(PickImageFromGallery.PICK_ME_REQUEST_CODE_GALLERY,backWithUriDataIntent);
                     getActivity().onBackPressed();
                 }else {
@@ -183,6 +184,7 @@ public class GalleryImageFragment extends Fragment implements GalleryImageAdapte
     }
 
     private void saveCameraImage(Intent data){
+        //THIS METHOD IS USED TO SAVE THE IMAGE CLICKED IN THE ANDROID DEVICE.
 
 
     }
