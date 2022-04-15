@@ -12,6 +12,10 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.exoplayer2.ExoPlayer;
+import com.google.android.exoplayer2.MediaItem;
+import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.redeyesncode.pickmeredeyesncode.databinding.ActivityPreviewBinding;
 
 public class PreviewActivity extends AppCompatActivity {
@@ -19,6 +23,18 @@ public class PreviewActivity extends AppCompatActivity {
     private ActivityPreviewBinding binding;
 
     Uri previewUri = MediaStore.getMediaScannerUri();
+    SimpleExoPlayer player;
+    @Override
+    protected void onStop() {
+        super.onStop();
+        player.stop();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,9 +52,26 @@ public class PreviewActivity extends AppCompatActivity {
 
         }else if(mediaType.contains("VIDEO")){
             String mediaUri = getIntent().getStringExtra("VIDEO_PATH");
-            previewUri = Uri.parse(mediaUri);
+            Uri videoPreviewUri = Uri.parse(mediaUri);
+            Log.i("PICK_ME",videoPreviewUri.toString());
             binding.ivMediaImage.setVisibility(View.GONE);
             binding.previewVideo.setVisibility(View.VISIBLE);
+            binding.previewVideo.setSystemUiVisibility(View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+
+
+
+            player = new SimpleExoPlayer.Builder(this).build();
+            MediaItem mediaItem = MediaItem.fromUri(videoPreviewUri);
+            player.setMediaItem(mediaItem);
+            binding.previewVideo.setPlayer(player);
+
+            player.prepare();
+            player.play();
+
+
+
+
+
 
             // LOADING THE EXO PLAYER TO PLAY THE VIDEO HERE.
 

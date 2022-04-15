@@ -56,7 +56,7 @@ public class GalleryVideoFragment extends Fragment implements GalleryVideoAdapte
         }else {
             Intent previewIntent = new Intent(context,PreviewActivity.class);
             previewIntent.putExtra("MEDIA_TYPE","VIDEO");
-            previewIntent.putExtra("VIDEO_PATH",uri);
+            previewIntent.putExtra("VIDEO_PATH",uri.toString());
             startActivity(previewIntent);
 
         }

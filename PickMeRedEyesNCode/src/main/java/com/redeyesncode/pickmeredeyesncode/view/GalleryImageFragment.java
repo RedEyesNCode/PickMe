@@ -17,6 +17,7 @@ import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -30,7 +31,11 @@ import com.redeyesncode.pickmeredeyesncode.databinding.FragmentGalleryImageBindi
 import com.redeyesncode.pickmeredeyesncode.model.Image;
 import com.redeyesncode.pickmeredeyesncode.model.Video;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -183,9 +188,24 @@ public class GalleryImageFragment extends Fragment implements GalleryImageAdapte
 
     }
 
-    private void saveCameraImage(Intent data){
+    private File saveCameraImage(Intent data) throws IOException {
         //THIS METHOD IS USED TO SAVE THE IMAGE CLICKED IN THE ANDROID DEVICE.
 
+        String currentPhotoPath="";
+
+
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        // Save a file: path for use with ACTION_VIEW intents
+        currentPhotoPath = image.getAbsolutePath();
+        return image;
 
     }
     private void cameraIntent(){
