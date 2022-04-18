@@ -27,7 +27,10 @@ public class PreviewActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        player.stop();
+        if(binding.previewVideo.getVisibility()==View.VISIBLE){
+            player.stop();
+        }
+
     }
 
     @Override
@@ -48,6 +51,7 @@ public class PreviewActivity extends AppCompatActivity {
             String mediaUri = getIntent().getStringExtra("IMAGE_PATH");
             previewUri = Uri.parse(mediaUri);
             binding.ivMediaImage.setVisibility(View.VISIBLE);
+            binding.previewVideo.setVisibility(View.GONE);
             Glide.with(PreviewActivity.this).load(previewUri).into(binding.ivMediaImage);
 
         }else if(mediaType.contains("VIDEO")){
@@ -107,6 +111,15 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
                     backWithUriDataIntent.putExtra("BITMAP_", bitmap);
                     setResult(81,backWithUriDataIntent);
                     finish();
+                }else if(mediaType.contains("VIDEO")){
+                    backWithUriDataIntent.putExtra("MEDIA_TYPE","VIDEO");
+                    backWithUriDataIntent.putExtra("URI_FINAL",previewUri.toString());
+
+                    setResult(77,backWithUriDataIntent);
+                    finish();
+
+
+
                 }else {
                     backWithUriDataIntent.putExtra("MEDIA_TYPE","IMAGE");
                     backWithUriDataIntent.putExtra("URI_FINAL",previewUri.toString());

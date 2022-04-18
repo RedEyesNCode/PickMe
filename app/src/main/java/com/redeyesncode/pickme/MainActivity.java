@@ -90,13 +90,21 @@ public class MainActivity extends AppCompatActivity {
         if(requestCode==PickImageFromGallery.PICK_ME_REQUEST_CODE_GALLERY){
             try {
                 String mediaType = data.getStringExtra("MEDIA_TYPE");
-                if (mediaType.contains("BITMAP")){
+                if (mediaType.contains("BITMAP")) {
                     Bitmap bitmapMain = (Bitmap) data.getParcelableExtra("BITMAP_");
                     binding.setMediaImage.setImageBitmap(bitmapMain);
-                }else {
+                }else if(mediaType.contains("VIDEO")){
+                    String uriFinal = data.getStringExtra("URI_FINAL");
+                    Uri pickedUri = Uri.parse(uriFinal);
+                    Log.i("PICK_ME : MAIN ACTIVITY",uriFinal);
+                    /*binding.setMediaImage.setImageURI(pickedUri);*/
+
+
+                } else {
 
                     String uriFinal = data.getStringExtra("URI_FINAL");
                     Uri PICKEDuri = Uri.parse(uriFinal);
+                    Log.i("PICK_ME : MAIN ACTIVITY :: LAST ELSE",uriFinal);
                     binding.setMediaImage.setImageURI(PICKEDuri);
 
                 }

@@ -266,18 +266,35 @@ public class GalleryVideoFragment extends Fragment implements GalleryVideoAdapte
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        String mediaType = data.getStringExtra("MEDIA_TYPE");
         if(requestCode==CAMERA_VIDEO_REQUEST){
             //THIS IS THE RESULT FROM THE CAMERA FOR THE VIDEO RECORDED BY THE USER.
             //TASK IS TO GET THE URI AND OF THE RECORDED VIDEO SAVE IT AND SEND IT TO THE PREVIEW SCREEN.
             //IN CASE OF THE VIDEO YOU WILL GET THE URI OF THE VIDEO RECORDED BY THE SUER
 
-            Uri videoUri =  data.getData();
-            Intent previewVideoIntent = new Intent(context,GalleryVideoFragment.class);
-            previewVideoIntent.putExtra("MEDIA_TYPE","VIDEO");
-            previewVideoIntent.putExtra("VIDEO_PATH",videoUri.toString());
-            getActivity().startActivityForResult(previewVideoIntent,PickImageFromGallery.PICK_ME_IMAGE_CODE);
+            try {
+                Uri videoUri =  data.getData();
+                Log.i("PICK_ME",videoUri.toString());
+                Intent previewVideoIntent = new Intent(context,PreviewActivity.class);
+                previewVideoIntent.putExtra("MEDIA_TYPE","VIDEO");
+                previewVideoIntent.putExtra("VIDEO_PATH",videoUri.toString());
+                startActivityForResult(previewVideoIntent,PickImageFromGallery.PICK_ME_IMAGE_CODE);
+
+            }catch (Exception e){
+                Log.i("PICK_ME",e.getMessage());
+            }
 
 
+        }else if (resultCode==77 && mediaType.contains("VIDEO")){
+
+            String uriFinal = data.getStringExtra("URI_FINAL");
+            Intent backWithUriDataIntent = new Intent();
+            backWithUriDataIntent.putExtra("MEDIA_TYPE","IMAGE");
+            backWithUriDataIntent.putExtra("URI_FINAL",uriFinal);
+
+            //USING GET ACTIVITY IN FRAGMENT
+            getActivity().setResult(PickImageFromGallery.PICK_ME_REQUEST_CODE_GALLERY,backWithUriDataIntent);
+            getActivity().onBackPressed();
         }
 
     }
