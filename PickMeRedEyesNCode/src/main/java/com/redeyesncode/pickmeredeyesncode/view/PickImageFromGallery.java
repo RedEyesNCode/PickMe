@@ -95,6 +95,7 @@ public class PickImageFromGallery extends AppCompatActivity {
 
 
 
+
     }
     private List<Image> fetchGalleryImagesIntoRecyclerView(){
 
