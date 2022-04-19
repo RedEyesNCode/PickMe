@@ -34,14 +34,10 @@ afterEvaluate {
         publications {
             release(MavenPublication){
                 from components.release
-
                 groupId = 'com.github.RedEyesNCode'
                 artifactId = 'Pick_Me'
                 version = '1.0'
-
-
             }
-
         }
     }
 

@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
                checkPermission();
             }
         });
+
     }
     private void checkPermission(){
         Dexter.withContext(MainActivity.this).withPermissions(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.ACCESS_MEDIA_LOCATION).withListener(new MultiplePermissionsListener() {
@@ -49,7 +50,8 @@ public class MainActivity extends AppCompatActivity {
             public void onPermissionsChecked(MultiplePermissionsReport multiplePermissionsReport) {
                 if(multiplePermissionsReport.areAllPermissionsGranted()){
                     PickImageFromGallery pickImageFromGallery = new PickImageFromGallery();
-                    pickImageFromGallery.goToPickActivity(MainActivity.this);                }else {
+                    pickImageFromGallery.goToPickActivity(MainActivity.this);                }
+                else {
                     showDialogSettings();
                 }
             }
