@@ -3,6 +3,7 @@ package com.redeyesncode.pickme;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContract;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -19,6 +20,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.canhub.cropper.CropImageContract;
 import com.canhub.cropper.CropImageContractOptions;
 import com.canhub.cropper.CropImageOptions;
 import com.canhub.cropper.CropImageView;
@@ -35,7 +37,20 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
-    private ActivityResultLauncher<CropImageContractOptions> cropImage;
+
+    static final String DATE_FORMAT = "yyyyMMdd_HHmmss";
+    static final String FILE_NAMING_PREFIX = "JPEG_";
+    static final String FILE_NAMING_SUFFIX = "_";
+    static final String FILE_FORMAT = ".jpg";
+    static final String AUTHORITY_SUFFIX = ".cropper.fileprovider";
+    ActivityResultLauncher<CropImageContractOptions> cropImage = registerForActivityResult(new CropImageContract(),
+            new ActivityResultCallback<CropImageView.CropResult>() {
+                @Override
+                public void onActivityResult(CropImageView.CropResult result) {
+
+
+                }
+            });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,9 +66,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
         binding.btnCropperActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                checkPermission();
 
             }
         });
@@ -143,38 +160,26 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void openCropperImage(){
-        cropImage = registerForActivityResult(
-                new ActivityResultContract<CropImageContractOptions, CropImageView.CropResult>() {
-                    @Override
-                    public CropImageView.CropResult parseResult(int i, Intent intent) {
-                        return null;
-                    }
-
-                    @Override
-                    public Intent createIntent(Context context, CropImageContractOptions cropImageContractOptions) {
-                        return null;
-                    }
-                }, new ActivityResultCallback<CropImageView.CropResult>() {
-                    @Override
-                    public void onActivityResult(CropImageView.CropResult result) {
-                        Log.v("CROP_RESULT", result.toString());
-                    }
-                });
 
         CropImageOptions cropImageOptions = new CropImageOptions();
         cropImageOptions.cropMenuCropButtonTitle = "Done";
         cropImageOptions.guidelines = CropImageView.Guidelines.ON;
-        /*PickImageContractOptions pickImageContractOptions = new PickImageContractOptions();
+     /*   PickImageContractOptions pickImageContractOptions = new PickImageContractOptions();
         pickImageContractOptions.setIncludeCamera(true);
         pickImageContractOptions.setIncludeGallery(true);*/
 
 
 
-        CropImageContractOptions options = new CropImageContractOptions(null, cropImageOptions);
+        CropImageContractOptions options = new CropImageContractOptions(null, cropImageOptions)
+                .setBackgroundColor(getResources().getColor(R.color.black))
+                .setCropMenuCropButtonTitle("DONE IMAGE")
+                .setActivityTitle("done").setAllowFlipping(true);
+
         cropImage.launch(options);
 
 
     }
+
 
 
 }

@@ -18,7 +18,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_marginHorizontal="@dimen/_25sdp"
-        android:text="IMAGE CROPPE [CANHUB]"
+        android:text="IMAGE CROPPER [CANHUB]"
         android:layout_marginTop="@dimen/_8sdp"
         android:id="@+id/btnCropperActivity"
         android:layout_height="wrap_content">
