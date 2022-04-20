@@ -48,6 +48,9 @@ public class RedEyesNCode extends AppCompatActivity {
         activity.startActivityForResult(pickImageIntent, PICK_ME_REQUEST_CODE_GALLERY);
 
     }
+    public void initFragment(Context context){
+        Intent pickImageIntent = new Intent(context, RedEyesNCode.class);
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

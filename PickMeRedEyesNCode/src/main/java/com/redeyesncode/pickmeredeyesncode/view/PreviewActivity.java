@@ -119,7 +119,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
                     if (MEDIA_FROM.contains("REDEYESNCODE")){
                         backWithUriDataIntent.putExtra("MEDIA_TYPE","VIDEO");
                         backWithUriDataIntent.putExtra("URI_FINAL",previewVideoUri.toString());
-                        setResult(77,backWithUriDataIntent);
+                        setResult(82,backWithUriDataIntent);
                         finish();
                     }else {
                         backWithUriDataIntent.putExtra("MEDIA_TYPE","VIDEO");

@@ -48,7 +48,7 @@ public class GalleryVideoFragment extends Fragment implements GalleryVideoAdapte
         if (name.contains("REDEYESNCODE")){
             //OPEN THE INTENT FOR THE CAMERA FOR THE USER TO TAKE A VIDEO AND SAVE IT.
             Intent cameraIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-            cameraIntent.putExtra("MEDIA_FROM","REDEYENCODE");
+            cameraIntent.putExtra("MEDIA_FROM","REDEYESNCODE");
             startActivityForResult(cameraIntent, CAMERA_VIDEO_REQUEST);
 
         }else {
@@ -265,7 +265,7 @@ public class GalleryVideoFragment extends Fragment implements GalleryVideoAdapte
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        String mediaType = data.getStringExtra("MEDIA_TYPE");
+     //   String mediaType = data.getStringExtra("MEDIA_TYPE");
         if(requestCode==CAMERA_VIDEO_REQUEST){
             //THIS IS THE RESULT FROM THE CAMERA FOR THE VIDEO RECORDED BY THE USER.
             //TASK IS TO GET THE URI AND OF THE RECORDED VIDEO SAVE IT AND SEND IT TO THE PREVIEW SCREEN.
@@ -277,6 +277,7 @@ public class GalleryVideoFragment extends Fragment implements GalleryVideoAdapte
                 Intent previewVideoIntent = new Intent(context,PreviewActivity.class);
                 previewVideoIntent.putExtra("MEDIA_TYPE","VIDEO");
                 previewVideoIntent.putExtra("VIDEO_PATH",videoUri.toString());
+                previewVideoIntent.putExtra("MEDIA_FROM","REDEYESNCODE");
                 startActivityForResult(previewVideoIntent, RedEyesNCode.PICK_ME_IMAGE_CODE);
 
             }catch (Exception e){
@@ -284,7 +285,7 @@ public class GalleryVideoFragment extends Fragment implements GalleryVideoAdapte
             }
 
 
-        }else if(resultCode==RedEyesNCode.PICK_ME_VIDEO_CODE && mediaType.contains("VIDEO")){
+        }else if(resultCode==RedEyesNCode.PICK_ME_VIDEO_CODE /*&& mediaType.contains("VIDEO")*/){
 
             String uriFinal = data.getStringExtra("URI_FINAL");
             Intent backWithUriDataIntent = new Intent();
@@ -297,7 +298,7 @@ public class GalleryVideoFragment extends Fragment implements GalleryVideoAdapte
 
 
 
-        } else if (resultCode==77 && mediaType.contains("VIDEO")){
+        } else if (resultCode==77 /*&& mediaType.contains("VIDEO")*/){
 
             String uriFinal = data.getStringExtra("URI_FINAL");
             Intent backWithUriDataIntent = new Intent();

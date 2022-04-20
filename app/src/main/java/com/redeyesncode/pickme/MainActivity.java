@@ -199,4 +199,12 @@ public class MainActivity extends AppCompatActivity {
             player.stop();
         }
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(binding.previewVideo.getVisibility()==View.VISIBLE){
+            player.stop();
+        }
+    }
 }
