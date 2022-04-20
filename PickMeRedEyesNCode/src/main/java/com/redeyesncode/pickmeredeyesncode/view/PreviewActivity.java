@@ -23,6 +23,7 @@ public class PreviewActivity extends AppCompatActivity {
     private ActivityPreviewBinding binding;
 
     Uri previewUri = MediaStore.getMediaScannerUri();
+    private Uri previewVideoUri;
     SimpleExoPlayer player;
     @Override
     protected void onStop() {
@@ -50,6 +51,7 @@ public class PreviewActivity extends AppCompatActivity {
         if (mediaType.contains("IMAGE")){
             String mediaUri = getIntent().getStringExtra("IMAGE_PATH");
             previewUri = Uri.parse(mediaUri);
+
             binding.ivMediaImage.setVisibility(View.VISIBLE);
             binding.previewVideo.setVisibility(View.GONE);
             Glide.with(PreviewActivity.this).load(previewUri).into(binding.ivMediaImage);
@@ -57,6 +59,7 @@ public class PreviewActivity extends AppCompatActivity {
         }else if(mediaType.contains("VIDEO")){
             String mediaUri = getIntent().getStringExtra("VIDEO_PATH");
             Uri videoPreviewUri = Uri.parse(mediaUri);
+            previewVideoUri = videoPreviewUri;
             Log.i("PICK_ME : VIDEO",videoPreviewUri.toString());
             binding.ivMediaImage.setVisibility(View.GONE);
             binding.previewVideo.setVisibility(View.VISIBLE);
@@ -113,7 +116,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
                     finish();
                 }else if(mediaType.contains("VIDEO")){
                     backWithUriDataIntent.putExtra("MEDIA_TYPE","VIDEO");
-                    backWithUriDataIntent.putExtra("URI_FINAL",previewUri.toString());
+                    backWithUriDataIntent.putExtra("URI_FINAL",previewVideoUri.toString());
 
                     setResult(77,backWithUriDataIntent);
                     finish();

@@ -24,6 +24,8 @@ import com.canhub.cropper.CropImageContract;
 import com.canhub.cropper.CropImageContractOptions;
 import com.canhub.cropper.CropImageOptions;
 import com.canhub.cropper.CropImageView;
+import com.google.android.exoplayer2.MediaItem;
+import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -37,7 +39,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
-
+    SimpleExoPlayer player;
     static final String DATE_FORMAT = "yyyyMMdd_HHmmss";
     static final String FILE_NAMING_PREFIX = "JPEG_";
     static final String FILE_NAMING_SUFFIX = "_";
@@ -137,7 +139,18 @@ public class MainActivity extends AppCompatActivity {
                     Log.i("PICK_ME : MAIN ACTIVITY",uriFinal);
                     binding.setMediaImage.setVisibility(View.GONE);
                     binding.previewVideo.setVisibility(View.VISIBLE);
+                    binding.previewVideo.setVisibility(View.VISIBLE);
+                    binding.previewVideo.setSystemUiVisibility(View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
 
+
+
+                    player = new SimpleExoPlayer.Builder(this).build();
+                    MediaItem mediaItem = MediaItem.fromUri(pickedUri);
+                    player.setMediaItem(mediaItem);
+                    binding.previewVideo.setPlayer(player);
+
+                    player.prepare();
+                    player.play();
                     /*binding.setMediaImage.setImageURI(pickedUri);*/
 
 
@@ -182,6 +195,11 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
-
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if(binding.previewVideo.getVisibility()==View.VISIBLE){
+            player.stop();
+        }
+    }
 }
