@@ -15,7 +15,16 @@ A Simple Android Media Picker Libary Made in Java with Multiple Features.
 
 **Screenshots of the Libary**
 
-![Screenshot-1](/media/video_fragment.png) ![Screenshot-2](/media/gallery_fragment.png)
+<table>
+  <tr>
+    <td>Gallery Screen</td>
+     <td>Video Screen</td>
+   </tr>
+  <tr>
+    <td><img src="media/galllery_fragment.png" width=270 height=480></td>
+    <td><img src="media/video_fragment.png" width=270 height=480></td>
+  </tr>
+ </table>
 
 ------------
 
