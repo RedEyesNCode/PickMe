@@ -289,7 +289,7 @@ public class GalleryVideoFragment extends Fragment implements GalleryVideoAdapte
 
             String uriFinal = data.getStringExtra("URI_FINAL");
             Intent backWithUriDataIntent = new Intent();
-            backWithUriDataIntent.putExtra("MEDIA_TYPE","IMAGE");
+            backWithUriDataIntent.putExtra("MEDIA_TYPE","VIDEO");
             backWithUriDataIntent.putExtra("URI_FINAL",uriFinal);
 
             //USING GET ACTIVITY IN FRAGMENT

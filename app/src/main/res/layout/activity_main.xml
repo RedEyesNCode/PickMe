@@ -29,4 +29,14 @@
         android:layout_height="@dimen/_50sdp">
     </ImageView>
 
+    <com.google.android.exoplayer2.ui.PlayerView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/previewVideo"
+    android:visibility="gone"
+    android:layout_below="@id/toolbartop">
+
+</com.google.android.exoplayer2.ui.PlayerView>
+
+
 </LinearLayout>

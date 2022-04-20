@@ -57,7 +57,7 @@ public class PreviewActivity extends AppCompatActivity {
         }else if(mediaType.contains("VIDEO")){
             String mediaUri = getIntent().getStringExtra("VIDEO_PATH");
             Uri videoPreviewUri = Uri.parse(mediaUri);
-            Log.i("PICK_ME",videoPreviewUri.toString());
+            Log.i("PICK_ME : VIDEO",videoPreviewUri.toString());
             binding.ivMediaImage.setVisibility(View.GONE);
             binding.previewVideo.setVisibility(View.VISIBLE);
             binding.previewVideo.setSystemUiVisibility(View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);

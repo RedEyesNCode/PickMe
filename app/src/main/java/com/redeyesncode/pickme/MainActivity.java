@@ -84,15 +84,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPermissionsChecked(MultiplePermissionsReport multiplePermissionsReport) {
                 if(multiplePermissionsReport.areAllPermissionsGranted()){
-                  /*  PickImageFromGallery pickImageFromGallery = new PickImageFromGallery();
-                    pickImageFromGallery.goToPickActivity(MainActivity.this); */
-                    openCropperImage();
+                    PickImageFromGallery pickImageFromGallery = new PickImageFromGallery();
+                    pickImageFromGallery.goToPickActivity(MainActivity.this);
+//                    openCropperImage();
 
                 } else {
                     showDialogSettings();
                 }
             }
-
             @Override
             public void onPermissionRationaleShouldBeShown(List<PermissionRequest> list, PermissionToken permissionToken) {
 
@@ -136,6 +135,9 @@ public class MainActivity extends AppCompatActivity {
                     String uriFinal = data.getStringExtra("URI_FINAL");
                     Uri pickedUri = Uri.parse(uriFinal);
                     Log.i("PICK_ME : MAIN ACTIVITY",uriFinal);
+                    binding.setMediaImage.setVisibility(View.GONE);
+                    binding.previewVideo.setVisibility(View.VISIBLE);
+
                     /*binding.setMediaImage.setImageURI(pickedUri);*/
 
 
