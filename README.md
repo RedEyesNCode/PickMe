@@ -15,7 +15,7 @@ A Simple Android Media Picker Libary Made in Java with Multiple Features.
 
 **Screenshots of the Libary**
 
-![Screenshot](/media/video_fragment.png)
+![Screenshot-1](/media/video_fragment.png) ![Screenshot-2](/media/gallery_fragment.png)
 
 ------------
 
