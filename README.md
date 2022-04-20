@@ -2,24 +2,46 @@
 A Simple Android Media Picker Libary Made in Java with Multiple Features.
 #### This Libary is under constant Updates.
 
-Features :
- 1. Make newly created videos and photos on the go.
- 2. Takes the context into the Part and Returns the Uri of the Image from the Picker or the Camera
- Also, takes video from the camera.
-3. Take Media Preview Including Video and Photos Before finally picking them
-4. Works and Tested on Android 12 & Android 10 
+#### Features :
+
+------------
 
 
-Adding the Libary Dependency to your Project
+1.  Make Newly Created Videos And Photos On The Go.
+2.  Takes The Context Into The Part And Returns The Uri Of The Image From The Picker Or The Camera And Also, Takes Video From The Camera.
 
-1. Add ~ dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-    repositories {
-        google()
-        mavenCentral()
-        jcenter() // Warning: this repository is going to shut down soon
-        maven { url "https://jitpack.io" }
+3. Take Media Preview Including Video And Photos Before Finally Picking Them
+4.  Works And Tested On Android 12 & Android 10 
+
+**Screenshots of the Libary**
+
+![alt text](https://github.com/RedEyesNCode/PickMe/blob/main/gallery_fragment.png?raw=true)
+
+------------
+
+
+
+## Installation
+
+##### Add  The jitpack repository inside the settings.fradle file of your project.
+
+
+
+    dependencyResolutionManagement {
+                repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+                repositories {
+                    google()
+                    mavenCentral()
+                    jcenter() // Warning: this repository is going to shut down soon
+                    maven { url "https://jitpack.io" }
+                }
     }
-} >> In the Settings.gradle file of your project.
 
-2. implementation 'com.github.RedEyesNCode:PickMe:PickMe'
+------------
+
+
+#####  Add the dependency inside the android project 
+            implementation 'com.github.RedEyesNCode:PickMe:2.0'
+
+------------
+
