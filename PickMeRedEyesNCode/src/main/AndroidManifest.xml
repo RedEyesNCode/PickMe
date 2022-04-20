@@ -23,7 +23,7 @@
             android:name=".view.cameraPreview.CameraPreviewActivity"
             android:exported="false" />
         <activity
-            android:name=".view.PickImageFromGallery"
+            android:name=".view.RedEyesNCode"
             android:exported="false" />
         <activity
             android:name=".view.PreviewActivity"

@@ -18,10 +18,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import com.redeyesncode.pickmeredeyesncode.R;
-import com.redeyesncode.pickmeredeyesncode.adapter.GalleryImageAdapter;
 import com.redeyesncode.pickmeredeyesncode.adapter.GalleryVideoAdapter;
 import com.redeyesncode.pickmeredeyesncode.databinding.FragmentGalleryVideoBinding;
 import com.redeyesncode.pickmeredeyesncode.model.Image;
@@ -278,7 +275,7 @@ public class GalleryVideoFragment extends Fragment implements GalleryVideoAdapte
                 Intent previewVideoIntent = new Intent(context,PreviewActivity.class);
                 previewVideoIntent.putExtra("MEDIA_TYPE","VIDEO");
                 previewVideoIntent.putExtra("VIDEO_PATH",videoUri.toString());
-                startActivityForResult(previewVideoIntent,PickImageFromGallery.PICK_ME_IMAGE_CODE);
+                startActivityForResult(previewVideoIntent, RedEyesNCode.PICK_ME_IMAGE_CODE);
 
             }catch (Exception e){
                 Log.i("PICK_ME",e.getMessage());
@@ -293,7 +290,7 @@ public class GalleryVideoFragment extends Fragment implements GalleryVideoAdapte
             backWithUriDataIntent.putExtra("URI_FINAL",uriFinal);
 
             //USING GET ACTIVITY IN FRAGMENT
-            getActivity().setResult(PickImageFromGallery.PICK_ME_REQUEST_CODE_GALLERY,backWithUriDataIntent);
+            getActivity().setResult(RedEyesNCode.PICK_ME_REQUEST_CODE_GALLERY,backWithUriDataIntent);
             getActivity().onBackPressed();
         }
 

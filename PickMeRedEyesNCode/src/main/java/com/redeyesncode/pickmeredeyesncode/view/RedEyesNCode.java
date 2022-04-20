@@ -24,10 +24,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class PickImageFromGallery extends AppCompatActivity {
+public class RedEyesNCode extends AppCompatActivity {
     private ActivityPickImageFromGalleryBinding binding;
     private Activity activity;
-    public PickImageFromGallery() {
+    public RedEyesNCode() {
     }
 
     public static final int PICK_ME_REQUEST_CODE_GALLERY =10;
@@ -42,8 +42,8 @@ public class PickImageFromGallery extends AppCompatActivity {
         return openGallery;
 
     }
-    public void goToPickActivity(Activity activity){
-        Intent pickImageIntent = new Intent(activity,PickImageFromGallery.class);
+    public void initActivity(Activity activity){
+        Intent pickImageIntent = new Intent(activity, RedEyesNCode.class);
         //You need to Add the Context parameter in Order to use the Activity Methods Outside onCreate of any activity context.Methods-Name.
         activity.startActivityForResult(pickImageIntent, PICK_ME_REQUEST_CODE_GALLERY);
 

@@ -2,14 +2,11 @@ package com.redeyesncode.pickme;
 
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContract;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -32,7 +29,7 @@ import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.redeyesncode.pickme.databinding.ActivityMainBinding;
-import com.redeyesncode.pickmeredeyesncode.view.PickImageFromGallery;
+import com.redeyesncode.pickmeredeyesncode.view.RedEyesNCode;
 
 import java.util.List;
 
@@ -86,8 +83,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPermissionsChecked(MultiplePermissionsReport multiplePermissionsReport) {
                 if(multiplePermissionsReport.areAllPermissionsGranted()){
-                    PickImageFromGallery pickImageFromGallery = new PickImageFromGallery();
-                    pickImageFromGallery.goToPickActivity(MainActivity.this);
+                    RedEyesNCode redEyesNCode = new RedEyesNCode();
+                    redEyesNCode.initActivity(MainActivity.this);
 //                    openCropperImage();
 
                 } else {
@@ -127,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==PickImageFromGallery.PICK_ME_REQUEST_CODE_GALLERY){
+        if(requestCode== RedEyesNCode.PICK_ME_REQUEST_CODE_GALLERY){
             try {
                 String mediaType = data.getStringExtra("MEDIA_TYPE");
                 if (mediaType.contains("BITMAP")) {

@@ -44,6 +44,7 @@ public class GalleryImageAdapter extends RecyclerView.Adapter<GalleryImageAdapte
 
         if(image.getImagePath().contains("REDEYESNCODE")){
             Glide.with(context).load(R.drawable.ic_add_image).into(holder.binding.ImageTumbnail);
+            holder.binding.ImageTumbnail.setPadding(100,100,100,100);
         }else {
             Glide.with(context).load(image.getImagePath()).into(holder.binding.ImageTumbnail);
         }

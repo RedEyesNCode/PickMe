@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="match_parent"
-    tools:context=".view.PickImageFromGallery">
+    tools:context=".view.RedEyesNCode">
     <RelativeLayout
         android:id="@+id/toolbartop"
         android:layout_width="match_parent"
@@ -52,10 +52,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:tabSelectedTextColor="@color/white"
-        app:tabBackground="@color/teal_200"
-        app:tabTextColor="@color/black"
+        app:tabBackground="@color/pink"
+        app:tabTextColor="@color/white"
         android:layout_below="@+id/toolbartop"
-        android:background="?attr/colorPrimary"
+        android:background="@color/pink"
         android:elevation="0dp"/>
 
     <androidx.viewpager.widget.ViewPager

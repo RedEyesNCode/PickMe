@@ -75,7 +75,7 @@ public class GalleryImageFragment extends Fragment implements GalleryImageAdapte
             Intent previewIntent = new Intent(context,PreviewActivity.class);
             previewIntent.putExtra("MEDIA_TYPE","IMAGE");
             previewIntent.putExtra("IMAGE_PATH",uri.toString());
-            startActivityForResult(previewIntent,PickImageFromGallery.PICK_ME_IMAGE_CODE);
+            startActivityForResult(previewIntent, RedEyesNCode.PICK_ME_IMAGE_CODE);
 
         }
 
@@ -148,7 +148,7 @@ public class GalleryImageFragment extends Fragment implements GalleryImageAdapte
                 Bitmap bitmap = (Bitmap) data.getExtras().get("data");
 
                 previewIntent.putExtra("IMAGE_PATH",bitmap);
-                startActivityForResult(previewIntent,PickImageFromGallery.PICK_ME_IMAGE_CODE);
+                startActivityForResult(previewIntent, RedEyesNCode.PICK_ME_IMAGE_CODE);
 
 
             }catch (Exception e){
@@ -156,7 +156,7 @@ public class GalleryImageFragment extends Fragment implements GalleryImageAdapte
             }
 
 
-        }else if(requestCode==PickImageFromGallery.PICK_ME_IMAGE_CODE){
+        }else if(requestCode== RedEyesNCode.PICK_ME_IMAGE_CODE){
             try {
                 String mediaType = data.getStringExtra("MEDIA_TYPE");
                 if(mediaType.contains("BITMAP")){
@@ -165,7 +165,7 @@ public class GalleryImageFragment extends Fragment implements GalleryImageAdapte
                     backWithUriDataIntent.putExtra("MEDIA_TYPE","BITMAP");
                     backWithUriDataIntent.putExtra("BITMAP_", bitmapfinal);
                     saveCameraImage(data);
-                    getActivity().setResult(PickImageFromGallery.PICK_ME_REQUEST_CODE_GALLERY,backWithUriDataIntent);
+                    getActivity().setResult(RedEyesNCode.PICK_ME_REQUEST_CODE_GALLERY,backWithUriDataIntent);
                     getActivity().onBackPressed();
                 }else {
                     String uriFinal = data.getStringExtra("URI_FINAL");
@@ -174,7 +174,7 @@ public class GalleryImageFragment extends Fragment implements GalleryImageAdapte
                     backWithUriDataIntent.putExtra("URI_FINAL",uriFinal);
 
                     //USING GET ACTIVITY IN FRAGMENT
-                    getActivity().setResult(PickImageFromGallery.PICK_ME_REQUEST_CODE_GALLERY,backWithUriDataIntent);
+                    getActivity().setResult(RedEyesNCode.PICK_ME_REQUEST_CODE_GALLERY,backWithUriDataIntent);
                     getActivity().onBackPressed();
                 }
 

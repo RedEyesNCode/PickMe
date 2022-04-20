@@ -43,6 +43,7 @@ public class GalleryVideoAdapter extends RecyclerView.Adapter<GalleryVideoAdapte
 
         if(video.getName().contains("REDEYESNCODE")){
             Glide.with(context).load(R.drawable.video).into(holder.binding.ImageTumbnail);
+            holder.binding.ImageTumbnail.setPadding(100,100,100,100);
         }else {
             Glide.with(context).load(video.getUri()).into(holder.binding.ImageTumbnail);
         }
@@ -52,6 +53,7 @@ public class GalleryVideoAdapter extends RecyclerView.Adapter<GalleryVideoAdapte
             public void onClick(View view) {
                 if(video.getName().contains("REDEYESNCODE")){
                     onClicked.onVideoClick(position,"REDEYESNCODE",video.getUri());
+
                 }else {
                     onClicked.onVideoClick(position,video.getName(),video.getUri());
                 }

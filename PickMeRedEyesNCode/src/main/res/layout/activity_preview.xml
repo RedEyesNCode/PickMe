@@ -44,18 +44,20 @@
                 android:gravity="center"
                 android:text="Preview Media"
                 android:textColor="@color/white"
-                android:textSize="20dp"/>
+                android:textSize="20dp" />
+
             <Button
-                android:layout_width="wrap_content"
-                android:layout_alignParentRight="true"
                 android:id="@+id/btnDone"
-                android:text="DONE"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginHorizontal="4sp"
+                android:layout_marginVertical="4sp"
                 android:background="@color/teal_200"
-                android:textColor="@color/white"
-                android:layout_height="wrap_content">
+                android:text="DONE"
+                android:textColor="@color/white">
 
             </Button>
-
 
 
         </RelativeLayout>
