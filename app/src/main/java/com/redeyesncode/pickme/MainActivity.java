@@ -1,5 +1,6 @@
 package com.redeyesncode.pickme;
 
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -42,6 +43,16 @@ public class MainActivity extends AppCompatActivity {
                checkPermission();
             }
         });
+
+        binding.btnCropperActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+
+
 
     }
     private void checkPermission(){

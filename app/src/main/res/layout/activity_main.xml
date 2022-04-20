@@ -15,6 +15,14 @@
         android:id="@+id/btnPickMedia"
         android:layout_height="wrap_content">
     </Button>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_marginHorizontal="@dimen/_25sdp"
+        android:text="IMAGE CROPPE [CANHUB]"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:id="@+id/btnCropperActivity"
+        android:layout_height="wrap_content">
+    </Button>
     <ImageView
         android:id="@+id/setMediaImage"
         android:layout_width="@dimen/_50sdp"

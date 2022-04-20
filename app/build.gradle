@@ -46,6 +46,8 @@ dependencies {
     implementation project(path: ':PickMeRedEyesNCode')
     implementation 'com.karumi:dexter:6.2.3'
 
+    implementation 'com.github.CanHub:Android-Image-Cropper:4.2.1'
+
 
 
 }
