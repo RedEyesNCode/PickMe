@@ -48,13 +48,15 @@ public class GalleryVideoFragment extends Fragment implements GalleryVideoAdapte
         if (name.contains("REDEYESNCODE")){
             //OPEN THE INTENT FOR THE CAMERA FOR THE USER TO TAKE A VIDEO AND SAVE IT.
             Intent cameraIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+            cameraIntent.putExtra("MEDIA_FROM","REDEYENCODE");
             startActivityForResult(cameraIntent, CAMERA_VIDEO_REQUEST);
 
         }else {
             Intent previewIntent = new Intent(context,PreviewActivity.class);
             previewIntent.putExtra("MEDIA_TYPE","VIDEO");
+            previewIntent.putExtra("MEDIA_FROM","VIDEO_GALLERY");
             previewIntent.putExtra("VIDEO_PATH",uri.toString());
-            startActivity(previewIntent);
+            startActivityForResult(previewIntent,RedEyesNCode.PICK_ME_VIDEO_CODE);
 
         }
 
@@ -282,7 +284,20 @@ public class GalleryVideoFragment extends Fragment implements GalleryVideoAdapte
             }
 
 
-        }else if (resultCode==77 && mediaType.contains("VIDEO")){
+        }else if(resultCode==RedEyesNCode.PICK_ME_VIDEO_CODE && mediaType.contains("VIDEO")){
+
+            String uriFinal = data.getStringExtra("URI_FINAL");
+            Intent backWithUriDataIntent = new Intent();
+            backWithUriDataIntent.putExtra("MEDIA_TYPE","VIDEO");
+            backWithUriDataIntent.putExtra("URI_FINAL",uriFinal);
+
+            //USING GET ACTIVITY IN FRAGMENT
+            getActivity().setResult(RedEyesNCode.PICK_ME_REQUEST_CODE_GALLERY,backWithUriDataIntent);
+            getActivity().onBackPressed();
+
+
+
+        } else if (resultCode==77 && mediaType.contains("VIDEO")){
 
             String uriFinal = data.getStringExtra("URI_FINAL");
             Intent backWithUriDataIntent = new Intent();

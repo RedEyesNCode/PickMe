@@ -115,11 +115,22 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
                     setResult(81,backWithUriDataIntent);
                     finish();
                 }else if(mediaType.contains("VIDEO")){
-                    backWithUriDataIntent.putExtra("MEDIA_TYPE","VIDEO");
-                    backWithUriDataIntent.putExtra("URI_FINAL",previewVideoUri.toString());
+                    String MEDIA_FROM = getIntent().getStringExtra("MEDIA_FROM");
+                    if (MEDIA_FROM.contains("REDEYESNCODE")){
+                        backWithUriDataIntent.putExtra("MEDIA_TYPE","VIDEO");
+                        backWithUriDataIntent.putExtra("URI_FINAL",previewVideoUri.toString());
+                        setResult(77,backWithUriDataIntent);
+                        finish();
+                    }else {
+                        backWithUriDataIntent.putExtra("MEDIA_TYPE","VIDEO");
+                        backWithUriDataIntent.putExtra("URI_FINAL",previewVideoUri.toString());
+                        setResult(77,backWithUriDataIntent);
+                        finish();
 
-                    setResult(77,backWithUriDataIntent);
-                    finish();
+
+                    }
+
+
 
 
 
