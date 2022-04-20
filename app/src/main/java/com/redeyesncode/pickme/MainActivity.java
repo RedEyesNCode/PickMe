@@ -1,11 +1,14 @@
 package com.redeyesncode.pickme;
 
+import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContract;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -16,6 +19,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.canhub.cropper.CropImageContractOptions;
+import com.canhub.cropper.CropImageOptions;
+import com.canhub.cropper.CropImageView;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -29,6 +35,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
+    private ActivityResultLauncher<CropImageContractOptions> cropImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,9 +67,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPermissionsChecked(MultiplePermissionsReport multiplePermissionsReport) {
                 if(multiplePermissionsReport.areAllPermissionsGranted()){
-                    PickImageFromGallery pickImageFromGallery = new PickImageFromGallery();
-                    pickImageFromGallery.goToPickActivity(MainActivity.this);                }
-                else {
+                  /*  PickImageFromGallery pickImageFromGallery = new PickImageFromGallery();
+                    pickImageFromGallery.goToPickActivity(MainActivity.this); */
+                    openCropperImage();
+
+                } else {
                     showDialogSettings();
                 }
             }
@@ -131,4 +140,41 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
+
+    private void openCropperImage(){
+        cropImage = registerForActivityResult(
+                new ActivityResultContract<CropImageContractOptions, CropImageView.CropResult>() {
+                    @Override
+                    public CropImageView.CropResult parseResult(int i, Intent intent) {
+                        return null;
+                    }
+
+                    @Override
+                    public Intent createIntent(Context context, CropImageContractOptions cropImageContractOptions) {
+                        return null;
+                    }
+                }, new ActivityResultCallback<CropImageView.CropResult>() {
+                    @Override
+                    public void onActivityResult(CropImageView.CropResult result) {
+                        Log.v("CROP_RESULT", result.toString());
+                    }
+                });
+
+        CropImageOptions cropImageOptions = new CropImageOptions();
+        cropImageOptions.cropMenuCropButtonTitle = "Done";
+        cropImageOptions.guidelines = CropImageView.Guidelines.ON;
+        /*PickImageContractOptions pickImageContractOptions = new PickImageContractOptions();
+        pickImageContractOptions.setIncludeCamera(true);
+        pickImageContractOptions.setIncludeGallery(true);*/
+
+
+
+        CropImageContractOptions options = new CropImageContractOptions(null, cropImageOptions);
+        cropImage.launch(options);
+
+
+    }
+
+
 }
