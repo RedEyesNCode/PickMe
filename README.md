@@ -15,7 +15,7 @@ A Simple Android Media Picker Libary Made in Java with Multiple Features.
 
 **Screenshots of the Libary**
 
-![alt text](https://github.com/RedEyesNCode/PickMe/blob/main/gallery_fragment.png?raw=true)
+![Screenshot](/media/video_fragment.png)
 
 ------------
 
