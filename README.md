@@ -19,10 +19,15 @@ A Simple Android Media Picker Libary Made in Java with Multiple Features.
   <tr>
     <td>Gallery Screen</td>
      <td>Video Screen</td>
+     <td>Image Preview Screen</td>
+     <td>Video Preview Screen</td>
    </tr>
   <tr>
     <td><img src="media/gallery_fragment.png" width=270 height=480></td>
     <td><img src="media/video_fragment.png" width=270 height=480></td>
+    <td><img src="media/preview_image_gif.gif" width=270 height=480></td>
+    <td><img src="media/preview_video_camera.gif" width=270 height=480></td>
+
   </tr>
  </table>
 
