@@ -1,10 +1,16 @@
 # PickMe
 A Simple Android Media Picker Libary Made in Java with Multiple Features.
-#### This Libary is under constant Updates.
+#### This Libary is under constant Updates. (! ALL_THIS_FOR_4_HEARTS !)
 
 #### Features :
 
 ------------
+
+#### Release Notes ::
+- 1.0 **Basic Intialzation of the project**
+- 2.0 **Pick Media & Preview Media only applied in Activity**
+- 2.1 **Pick Media & Preview Media Feature Working in Fragments also. (Implemented Listeners also)**
+
 
 
 1.  Make Newly Created Videos And Photos On The Go.
@@ -58,4 +64,24 @@ A Simple Android Media Picker Libary Made in Java with Multiple Features.
             implementation 'com.github.RedEyesNCode:PickMe:2.0'
 
 ------------
+## Using the Libary
+
+- If you want to use this libary in the fragment >> 
+1. Implement the RedEyesNCodeListener into the Fragment. Which contains 3 method 
+
+``RedEyesNCodeListener >>  
+void onImageReceive(Uri uri);
+void onVideoReceive(Uri uri);
+void onBitmapReceive(Bitmap bitmap);``
+
+2. Use the ``redEyesNCode.initFragment(getActivity(),this);`` Method if you want to notify the listener
+
+- If you want to use this libary in the activity >>
+
+1. You need to add these check in the onActivityResultOf the Activity from which you are calling.
+   ``mediaType can be of Three Types which are :: BITMAP, VIDEO, IMAGE``
+2. ``String mediaType = data.getStringExtra("MEDIA_TYPE");``
+
+Note :: Just See the MainActivity.java code you will get it all Trust Me ! :)
+
 

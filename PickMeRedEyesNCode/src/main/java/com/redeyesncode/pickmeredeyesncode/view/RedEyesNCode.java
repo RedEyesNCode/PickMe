@@ -27,8 +27,8 @@ import java.util.concurrent.TimeUnit;
 public class RedEyesNCode extends AppCompatActivity {
     private ActivityPickImageFromGalleryBinding binding;
     private Activity activity;
-    public RedEyesNCode() {
-    }
+    public  static RedEyesNCodeListener redEyesNCodeListener;
+
 
     public static final int PICK_ME_REQUEST_CODE_GALLERY =10;
     public static final int PICK_ME_REQUEST_CODE_VIDEO =10;
@@ -43,13 +43,16 @@ public class RedEyesNCode extends AppCompatActivity {
 
     }
     public void initActivity(Activity activity){
+
         Intent pickImageIntent = new Intent(activity, RedEyesNCode.class);
         //You need to Add the Context parameter in Order to use the Activity Methods Outside onCreate of any activity context.Methods-Name.
         activity.startActivityForResult(pickImageIntent, PICK_ME_REQUEST_CODE_GALLERY);
 
     }
-    public void initFragment(Context context){
-        Intent pickImageIntent = new Intent(context, RedEyesNCode.class);
+    public void initFragment(Activity activity, RedEyesNCodeListener redEyesNCodeListener){
+        this.redEyesNCodeListener = redEyesNCodeListener;
+        Intent pickImageIntent = new Intent(activity, RedEyesNCode.class);
+        activity.startActivityForResult(pickImageIntent, PICK_ME_REQUEST_CODE_GALLERY);
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -246,6 +249,7 @@ public class RedEyesNCode extends AppCompatActivity {
         return videoList;
 
     }
+
 
 
 

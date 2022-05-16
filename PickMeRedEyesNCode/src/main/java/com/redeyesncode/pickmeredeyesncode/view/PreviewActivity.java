@@ -9,13 +9,10 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.SimpleExoPlayer;
-import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.redeyesncode.pickmeredeyesncode.databinding.ActivityPreviewBinding;
 
 public class PreviewActivity extends AppCompatActivity {
@@ -112,6 +109,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
                     Bitmap bitmap = (Bitmap) getIntent().getParcelableExtra("IMAGE_PATH");
                     backWithUriDataIntent.putExtra("MEDIA_TYPE","BITMAP");
                     backWithUriDataIntent.putExtra("BITMAP_", bitmap);
+                    RedEyesNCode.redEyesNCodeListener.onBitmapReceive(bitmap);
                     setResult(81,backWithUriDataIntent);
                     finish();
                 }else if(mediaType.contains("VIDEO")){
@@ -119,25 +117,21 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
                     if (MEDIA_FROM.contains("REDEYESNCODE")){
                         backWithUriDataIntent.putExtra("MEDIA_TYPE","VIDEO");
                         backWithUriDataIntent.putExtra("URI_FINAL",previewVideoUri.toString());
+                        RedEyesNCode.redEyesNCodeListener.onVideoReceive(previewVideoUri);
                         setResult(82,backWithUriDataIntent);
                         finish();
                     }else {
                         backWithUriDataIntent.putExtra("MEDIA_TYPE","VIDEO");
                         backWithUriDataIntent.putExtra("URI_FINAL",previewVideoUri.toString());
+                        RedEyesNCode.redEyesNCodeListener.onVideoReceive(previewVideoUri);
                         setResult(77,backWithUriDataIntent);
                         finish();
-
-
                     }
-
-
-
-
-
                 }else {
                     backWithUriDataIntent.putExtra("MEDIA_TYPE","IMAGE");
                     backWithUriDataIntent.putExtra("URI_FINAL",previewUri.toString());
                     setResult(81,backWithUriDataIntent);
+                    RedEyesNCode.redEyesNCodeListener.onImageReceive(previewUri);
                     finish();
                 }
 
