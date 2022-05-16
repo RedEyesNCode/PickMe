@@ -1,0 +1,105 @@
+
+t
+java:S2293y"YReplace the type specification in this constructor call with the diamond operator ("<>").(¨ƒæõşÿÿÿÿ
+u
+java:S2293Ì"YReplace the type specification in this constructor call with the diamond operator ("<>").(À‘ƒ¤ùÿÿÿÿ
+f
+java:S11923"KDefine a constant instead of duplicating this literal "MEDIA_FROM" 3 times.(Èµ‘íøÿÿÿÿ
+a
+java:S11928"FDefine a constant instead of duplicating this literal "VIDEO" 4 times.(Ôñå«ùÿÿÿÿ
+f
+java:S11928"KDefine a constant instead of duplicating this literal "MEDIA_TYPE" 4 times.(Ôñå«ùÿÿÿÿ
+b
+java:S1192Š"FDefine a constant instead of duplicating this literal "_data" 3 times.(òü×Ûûÿÿÿÿ
+_
+java:S1192Â"HDefine a constant instead of duplicating this literal "PICK_ME" 4 times.(‹´ç¡
+c
+java:S11920"MDefine a constant instead of duplicating this literal "REDEYESNCODE" 4 times.(Œµ›î
+f
+java:S1192¢"JDefine a constant instead of duplicating this literal "URI_FINAL" 4 times.(ŒŞ²ªıÿÿÿÿ
+^
+java:S2259¯"BA "NullPointerException" could be thrown; "data" is nullable here.(ŒŞ²ªıÿÿÿÿ
+^
+java:S2259¢"BA "NullPointerException" could be thrown; "data" is nullable here.(ŒŞ²ªıÿÿÿÿ
+^
+java:S2259“"BA "NullPointerException" could be thrown; "data" is nullable here.(¸ŠÔµûÿÿÿÿ
+y	java:S116,"_Rename this field "CAMERA_VIDEO_REQUEST" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‡ŸŠ‘üÿÿÿÿ
+<
+java:S1170,"!Make this final field static too.(‡ŸŠ‘üÿÿÿÿ
+l
+java:S1450J"VRemove the "mParam1" field and declare it as a local variable in the relevant methods.(•Íï‘
+l
+java:S1450K"VRemove the "mParam2" field and declare it as a local variable in the relevant methods.(¡ˆ€ 
+M
+java:S1135&"2Complete the task associated to this TODO comment.(ÜûŠ—øÿÿÿÿ
+Y
+java:S18744">Remove this use of "startActivityForResult"; it is deprecated.(½šşúÿÿÿÿ
+T
+java:S1874;">Remove this use of "startActivityForResult"; it is deprecated.(Îöå
+M
+java:S1135I"2Complete the task associated to this TODO comment.(ğï¢öúÿÿÿÿ
+M
+java:S1135Z"2Complete the task associated to this TODO comment.(ßíŠÿÿÿÿÿ
+E
+java:S1481{"/Remove this unused "collection" local variable.(ÊˆÊÚ
+W
+java:S3252…"@Use static access with "android.provider.BaseColumns" for "_ID".(Å°˜Î
+l
+java:S3252†"UUse static access with "android.provider.MediaStore$MediaColumns" for "DISPLAY_NAME".(»áíÓ
+d
+java:S3252‡"MUse static access with "android.provider.MediaStore$MediaColumns" for "SIZE".(·íË²
+E
+java:S1481ƒ"/Remove this unused "projection" local variable.(Èîæ\
+f
+java:S3252"OUse static access with "android.provider.MediaStore$MediaColumns" for "AUTHOR".(‹«ÿ
+E
+java:S1481".Remove this unused "selection" local variable.(‹«ÿ
+N
+java:S1481"2Remove this unused "selectionArgs" local variable.(çğúÿÿÿÿ
+j
+java:S3252“"SUse static access with "android.provider.MediaStore$MediaColumns" for "DATE_TAKEN".(õéÕ¤
+W
+java:S3252Ÿ"@Use static access with "android.provider.BaseColumns" for "_ID".(Š¾É‚
+k
+java:S3252 "UUse static access with "android.provider.MediaStore$MediaColumns" for "DISPLAY_NAME".(µäöF
+i
+java:S3252¡"MUse static access with "android.provider.MediaStore$MediaColumns" for "SIZE".(ÏŠùÈøÿÿÿÿ
+O	java:S106±"9Replace this use of System.out or System.err by a logger.(í×™»
+T	java:S106µ"9Replace this use of System.out or System.err by a logger.(×àüùÿÿÿÿ
+Q	java:S125¸"<This block of commented-out lines of code should be removed.(¾÷ï
+R	java:S125Å"<This block of commented-out lines of code should be removed.(İ¶•
+V
+java:S3252Ö"@Use static access with "android.provider.BaseColumns" for "_ID".(ÛÔÁd
+l
+java:S3252×"UUse static access with "android.provider.MediaStore$MediaColumns" for "DISPLAY_NAME".(¶‘ö¨
+h
+java:S3252Ø"QUse static access with "android.provider.MediaStore$MediaColumns" for "DURATION".(ìÁİú
+d
+java:S3252Ù"MUse static access with "android.provider.MediaStore$MediaColumns" for "SIZE".(‰¸ªš
+h
+java:S3252Û"QUse static access with "android.provider.MediaStore$MediaColumns" for "DURATION".(ë’¿Ô
+l
+java:S3252ß"UUse static access with "android.provider.MediaStore$MediaColumns" for "DISPLAY_NAME".(ÙŒûÍ
+\
+java:S3252é"@Use static access with "android.provider.BaseColumns" for "_ID".(Øô¦Öøÿÿÿÿ
+q
+java:S3252ë"UUse static access with "android.provider.MediaStore$MediaColumns" for "DISPLAY_NAME".(œ²àÚşÿÿÿÿ
+h
+java:S3252í"QUse static access with "android.provider.MediaStore$MediaColumns" for "DURATION".(Ú•º‘
+d
+java:S3252î"MUse static access with "android.provider.MediaStore$MediaColumns" for "SIZE".(¥İ™ş
+f
+java:S1874Š"JDon't override a deprecated method or explicitly mark it as "@Deprecated".(™­²©ùÿÿÿÿ
+T
+java:S1874‹"8Remove this use of "onActivityResult"; it is deprecated.(ß¬©úÿÿÿÿ
+d
+java:S1871­"MThis branch's code block is the same as the block for the branch on line 288.(ÒÔ¿ó
+R	java:S125Œ"<This block of commented-out lines of code should be removed.(ßê²´
+Z
+java:S1874™">Remove this use of "startActivityForResult"; it is deprecated.(Ûğá–şÿÿÿÿ
+A
+java:S1068J"+Remove this unused "mParam1" private field.(•Íï‘
+A
+java:S1068K"+Remove this unused "mParam2" private field.(¡ˆ€ 
+b
+java:S1144w"GRemove this unused private "fetchGalleryImagesIntoRecyclerView" method.(¦²œĞúÿÿÿÿ
