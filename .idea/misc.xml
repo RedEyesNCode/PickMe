@@ -12,6 +12,8 @@
         <entry key="PickMeRedEyesNCode/src/main/res/layout/fragment_image_picker.xml" value="0.340625" />
         <entry key="PickMeRedEyesNCode/src/main/res/layout/media_list.xml" value="0.35625" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/activity_pick_me_fragment.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_pick_me.xml" value="0.22" />
       </map>
     </option>
   </component>

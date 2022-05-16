@@ -23,11 +23,23 @@
         android:id="@+id/btnCropperActivity"
         android:layout_height="wrap_content">
     </Button>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_marginHorizontal="@dimen/_25sdp"
+        android:text="PICK ME IN [FRAGMENT]"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:id="@+id/btnFragment"
+        android:layout_height="wrap_content">
+    </Button>
     <ImageView
         android:id="@+id/setMediaImage"
         android:layout_width="@dimen/_50sdp"
+        android:layout_marginTop="@dimen/_12sdp"
+        android:layout_gravity="center_horizontal"
         android:layout_height="@dimen/_50sdp">
     </ImageView>
+
+
 
     <com.google.android.exoplayer2.ui.PlayerView
     android:layout_width="match_parent"

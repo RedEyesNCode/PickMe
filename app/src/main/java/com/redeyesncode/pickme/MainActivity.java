@@ -73,6 +73,13 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+        binding.btnFragment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent fragmentIntent = new Intent(MainActivity.this,PickMeFragmentActivity.class);
+                startActivity(fragmentIntent);
+            }
+        });
 
 
 
