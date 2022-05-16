@@ -61,7 +61,7 @@ A Simple Android Media Picker Libary Made in Java with Multiple Features.
 
 
 #####  Add the dependency inside the android project 
-            implementation 'com.github.RedEyesNCode:PickMe:2.0'
+            implementation 'com.github.RedEyesNCode:PickMe:2.1'
 
 ------------
 ## Using the Libary
